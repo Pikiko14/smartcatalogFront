@@ -1,1 +1,30 @@
 // app global css in SCSS form
+body {
+  background-color: #dfdfe8;
+}
+
+.logo-img {
+  max-width: 120px;
+  max-height: 50px;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.flex-center {
+  justify-content: center;
+  align-items: center;
+}
+
+.header-toolbar {
+  position: relative;
+}
+
+.header-toolbar .right-btn {
+  right: 13px;
+  max-width: 220px;
+  position: absolute;
+  display: flex-end;
+  justify-content: end;
+}

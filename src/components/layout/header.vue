@@ -104,6 +104,7 @@
 <script lang="ts">
 import { useI18n } from 'vue-i18n';
 import { defineComponent } from 'vue';
+import { LocalStorage } from 'quasar';
 
 export default defineComponent({
   name: 'HeaderLayoutComponenet',
@@ -132,6 +133,7 @@ export default defineComponent({
       localeOptions,
       setLocale(lang: string) {
         locale.value = lang;
+        LocalStorage.set('lang', lang);
       },
     };
   },

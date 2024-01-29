@@ -11,8 +11,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, onBeforeMount, ref } from 'vue';
 import HeaderToolbar from 'src/components/layout/header.vue';
+import { useI18n } from 'vue-i18n';
+import { LocalStorage } from 'quasar';
 
 export default defineComponent({
   name: 'HomeLayout',
@@ -21,6 +23,14 @@ export default defineComponent({
   },
   setup() {
     const title = ref<string>('Catalogo enero');
+    const { locale } = useI18n({ useScope: 'global' });
+
+    // hook
+    onBeforeMount(() => {
+      if (LocalStorage.getItem('lang')) {
+        locale.value = LocalStorage.getItem('lang') as string;
+      }
+    });
 
     return {
       title,

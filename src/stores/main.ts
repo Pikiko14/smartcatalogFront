@@ -10,8 +10,11 @@ const handlerRequest = new Request({
   Accept: 'application/json',
 });
 
+const url = process.env.API_URL;
+
 export const useMainStore = defineStore('mainStore', () => {
   // data
+  const profile = ref<any>({});
   const catalog = ref<CatalogueInterface>({
     _id: '',
     id: '',
@@ -34,7 +37,29 @@ export const useMainStore = defineStore('mainStore', () => {
           true
         )) as ResponseObj;
         if (response.success) {
-          catalog.value = response.data;
+          catalog.value = response.data.catalogue;
+          profile.value = response.data.profile;
+          // change title
+          if (profile.value.brand_name) {
+            document.title = profile.value.brand_name;
+            console.log(profile.value);
+            if (profile.value.profile_pictury) {
+              const newFaviconLink = document.createElement('link');
+              newFaviconLink.rel = 'icon';
+              newFaviconLink.href = `${url}/profile/${profile.value.profile_pictury}`;
+              newFaviconLink.type = 'image/png';
+              // Obtener el elemento head
+              const headElement = document.head;
+              // Obtener el enlace actual del favicon
+              const currentFaviconLink =
+                document.querySelector('link[rel="icon"]');
+              // Reemplazar el enlace actual con el nuevo
+              headElement.replaceChild(
+                newFaviconLink,
+                currentFaviconLink as any
+              );
+            }
+          }
         }
         return response;
       } catch (error) {
@@ -47,6 +72,7 @@ export const useMainStore = defineStore('mainStore', () => {
 
   // return statement
   return {
+    profile,
     catalog,
     showCatalogue,
   };

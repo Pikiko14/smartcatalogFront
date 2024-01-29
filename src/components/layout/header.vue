@@ -1,6 +1,6 @@
 <template>
   <q-toolbar class="header-toolbar">
-    <q-img class="logo-img" src="/images/logo.webp"></q-img>
+    <q-img class="logo-img" :src="brandIcon"></q-img>
     <q-toolbar-title class="d-flex flex-center">
       <!--middle btn -->
       <q-btn
@@ -116,6 +116,10 @@ export default defineComponent({
     color: {
       type: String,
       default: () => '#fba124',
+    },
+    brandIcon: {
+      type: String,
+      default: () => '/images/logo.webp',
     },
   },
   components: {},

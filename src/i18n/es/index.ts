@@ -8,4 +8,6 @@ export default {
   share: 'Compartir',
   soppingBag: 'Bolsa',
   search: 'Filtros',
+  language: 'Lenguaje',
+  hello: 'Hola a todos',
 };

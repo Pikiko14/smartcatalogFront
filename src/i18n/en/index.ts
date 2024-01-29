@@ -8,4 +8,6 @@ export default {
   share: 'Share',
   soppingBag: 'Shopping bag',
   search: 'Filters',
+  language: 'Language',
+  hello: 'Hello all.',
 };

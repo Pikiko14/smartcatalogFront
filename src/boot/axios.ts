@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { boot } from 'quasar/wrappers';
 import axios, { AxiosInstance } from 'axios';
+import { notification } from './notification';
 
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
@@ -14,18 +16,37 @@ declare module '@vue/runtime-core' {
 // good idea to move this instance creation inside of the
 // "export default () => {}" function below (which runs individually
 // for each client)
-const api = axios.create({ baseURL: 'https://api.example.com' });
+const api = axios.create({ baseURL: `${process.env.API_URL}/api/v1` });
 
-export default boot(({ app }) => {
-  // for use inside Vue files (Options API) through this.$axios and this.$api
-
+export default boot(async ({ app }) => {
   app.config.globalProperties.$axios = axios;
-  // ^ ^ ^ this will allow you to use this.$axios (for Vue Options API form)
-  //       so you won't necessarily have to import axios in each vue file
-
   app.config.globalProperties.$api = api;
-  // ^ ^ ^ this will allow you to use this.$api (for Vue Options API form)
-  //       so you can easily perform requests against your app's API
+  api.interceptors.response.use(undefined, async (error: any) => {
+    if (error.response) {
+      if (error.response.status === 422) {
+        if (error) {
+          const { data } = error.response.data;
+          const { msg } = data.shift();
+          notification('negative', msg, 'red');
+        }
+      } else {
+        error.response.data.message
+          ? notification('negative', error.response.data.message, 'red')
+          : error.response.data.error
+          ? notification('negative', error.response.data.error, 'red')
+          : notification('negative', error.response.statusText, 'red');
+      }
+    } else {
+      notification(
+        'negative',
+        error.message
+          ? error.message
+          : 'Algo ha ocurrio al intentar procesar esta solicitud',
+        'red'
+      );
+    }
+    return Promise.reject(error);
+  });
 });
 
 export { api };

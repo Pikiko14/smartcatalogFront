@@ -54,6 +54,47 @@
             {{ $t('soppingBag') }}
           </q-tooltip>
         </q-btn>
+        <q-btn
+          flat
+          dense
+          class="q-ml-md"
+          rounded
+          :style="{ color: color || '#fba124' }"
+          icon="language"
+        >
+          <q-tooltip :style="{ backgroundColor: color || '#fba124' }">
+            {{ $t('language') }}
+          </q-tooltip>
+          <q-menu class="round-10">
+            <q-list dense>
+              <q-item
+                clickable
+                v-ripple
+                v-for="(lang, idx) in localeOptions"
+                :key="idx"
+                :class="{ 'text-white': locale === lang.value }"
+                @click="setLocale(lang.value)"
+                :style="{
+                  backgroundColor:
+                    lang.value === locale
+                      ? color
+                        ? color
+                        : '#fba124'
+                      : 'transparent',
+                }"
+              >
+                <q-item-section avatar>
+                  <q-icon :name="`img:${lang.icon}`"></q-icon>
+                </q-item-section>
+                <q-item-section style="margin-left: -20px">
+                  <q-item-label class="text-bold">
+                    {{ lang.label }}
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </q-menu>
+        </q-btn>
       </div>
       <!-- end right btn -->
     </q-toolbar-title>
@@ -61,6 +102,7 @@
 </template>
 
 <script lang="ts">
+import { useI18n } from 'vue-i18n';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
@@ -77,7 +119,21 @@ export default defineComponent({
   },
   components: {},
   setup() {
-    return {};
+    // data
+    const { locale } = useI18n({ useScope: 'global' });
+    const localeOptions = [
+      { value: 'es', label: 'Spanish', icon: '/images/spanish.png' },
+      { value: 'en', label: 'English', icon: '/images/english.png' },
+    ];
+
+    // return
+    return {
+      locale,
+      localeOptions,
+      setLocale(lang: string) {
+        locale.value = lang;
+      },
+    };
   },
 });
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <q-page class="row items-center justify-evenly"> asd </q-page>
+  <q-page class="row items-center justify-evenly"> {{ $t('hello') }} </q-page>
 </template>
 
 <script lang="ts">

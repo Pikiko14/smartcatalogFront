@@ -4,6 +4,7 @@ import { defineStore } from 'pinia';
 import { Request } from 'src/api/api';
 import { CatalogueInterface } from 'src/interfaces/catalog.interface';
 import { ResponseObj } from 'src/interfaces/api';
+import { ProfileInterface } from 'src/interfaces/profile.interface';
 
 const path = 'catalogues';
 const handlerRequest = new Request({
@@ -14,7 +15,7 @@ const url = process.env.API_URL;
 
 export const useMainStore = defineStore('mainStore', () => {
   // data
-  const profile = ref<any>({});
+  const profile = ref<ProfileInterface>({});
   const catalog = ref<CatalogueInterface>({
     _id: '',
     id: '',

@@ -3,7 +3,11 @@
     <q-header class="bg-white">
       <HeaderToolbar
         :title="title"
-        :brandIcon="`${url}/profile/${profile.profile_pictury}`"
+        :brandIcon="
+          profile.profile_pictury
+            ? `${url}/profile/${profile.profile_pictury}`
+            : '/images/logo.webp'
+        "
       />
     </q-header>
 

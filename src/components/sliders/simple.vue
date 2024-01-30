@@ -1,6 +1,6 @@
 <template>
   <section class="slider-container">
-    <div class="slider-wrapper">
+    <div class="slider-wrapper relative" v-if="render">
       <swiper
         ref="swiperRef"
         :effect="'fade'"
@@ -42,9 +42,22 @@
           ></q-btn>
         </swiper-slide>
         <!-- Navigation arrows -->
-        <q-btn flat class="swiper-button-next"></q-btn>
-        <q-btn flat class="swiper-button-prev"></q-btn>
       </swiper>
+      <q-btn
+        :style="{
+          color: color || '#fba124',
+        }"
+        color=""
+        flat
+        class="swiper-button-next"
+      ></q-btn>
+      <q-btn
+        :style="{
+          color: color || '#fba124',
+        }"
+        flat
+        class="swiper-button-prev"
+      ></q-btn>
     </div>
   </section>
 </template>
@@ -52,11 +65,13 @@
 
 <script lang="ts">
 import 'swiper/css';
-import { ref } from 'vue';
+import { nextTick } from 'vue';
 import 'swiper/css/navigation';
 import 'swiper/css/effect-fade';
-import { Navigation, EffectFade } from 'swiper/modules';
+import { onBeforeMount, ref } from 'vue';
 import { Swiper, SwiperSlide } from 'swiper/vue';
+import { Navigation, EffectFade } from 'swiper/modules';
+import { ProductInterface } from 'src/interfaces/product.interface';
 import { CatalogueInterface } from 'src/interfaces/catalog.interface';
 
 export default {
@@ -75,11 +90,12 @@ export default {
       default: () => '#fba124',
     },
   },
-  setup(props) {
+  setup(props, { emit }) {
     // data
     const swiperRef = ref<any>();
     const buttons = ref<any>([]);
     const url = process.env.API_URL;
+    const render = ref<boolean>(false);
 
     // methods
     const reSizeButtons = (element: any) => {
@@ -89,7 +105,6 @@ export default {
         props.catalogue.pages[element.activeIndex].images[0].buttons.forEach(
           (button: any) => {
             let btn = JSON.parse(JSON.stringify(button));
-            console.log(btn);
             btn.x = (btn.x / 400) * imageElement.width;
             btn.y = (btn.y / 590) * imageElement.height;
             buttons.value.push(JSON.parse(JSON.stringify(btn)));
@@ -98,13 +113,23 @@ export default {
       }
     };
 
-    const doAddProductToCard = (product: any) => {
-      console.log(product);
+    const doAddProductToCard = (product: ProductInterface) => {
+      emit('show-product', product);
     };
+
+    //lify cycle
+    onBeforeMount(() => {
+      setTimeout(() => {
+        nextTick(() => {
+          render.value = true;
+        });
+      }, 100);
+    });
 
     //return data
     return {
       url,
+      render,
       buttons,
       swiperRef,
       Navigation,

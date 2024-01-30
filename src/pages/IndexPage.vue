@@ -1,6 +1,6 @@
 <template>
   <q-page class="row items-center justify-evenly">
-    <HomePageComponent :catalogue="catalogue" />
+    <HomePageComponent :catalogue="catalogue" :profile="profile" />
   </q-page>
 </template>
 
@@ -27,12 +27,17 @@ export default defineComponent({
       return store.catalog;
     });
 
+    const profile = computed(() => {
+      return store.profile;
+    });
+
     // methods
     const showCatalogue = async (id: string) => {
       try {
-        const response = store.showCatalogue(id);
-        if (response) {
-          console.log(response);
+        const response = await store.showCatalogue(id);
+        if (response?.success) {
+          const realTitle = document.title;
+          document.title = `${realTitle} | ${response?.data.catalogue.name}`;
         }
       } catch (error) {}
     };
@@ -45,6 +50,7 @@ export default defineComponent({
 
     // return statement
     return {
+      profile,
       catalogue,
     };
   },

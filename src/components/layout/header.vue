@@ -8,6 +8,7 @@
         dense
         rounded
         icon="cloud_download"
+        v-if="$q.screen.gt.sm"
         :style="{ color: color || '#fba124' }"
       >
         <q-tooltip :style="{ backgroundColor: color || '#fba124' }">
@@ -20,6 +21,7 @@
         icon="share"
         rounded
         class="q-ml-md"
+        v-if="$q.screen.gt.sm"
         :style="{ color: color || '#fba124' }"
       >
         <q-tooltip :style="{ backgroundColor: color || '#fba124' }">
@@ -32,6 +34,7 @@
         icon="search"
         rounded
         class="q-ml-md"
+        v-if="$q.screen.gt.sm"
         :style="{ color: color || '#fba124' }"
       >
         <q-tooltip :style="{ backgroundColor: color || '#fba124' }">
@@ -42,6 +45,32 @@
 
       <!--right btn-->
       <div class="right-btn">
+        <q-btn
+          flat
+          dense
+          icon="share"
+          rounded
+          class="q-ml-md"
+          v-if="$q.screen.lt.sm"
+          :style="{ color: color || '#fba124' }"
+        >
+          <q-tooltip :style="{ backgroundColor: color || '#fba124' }">
+            {{ $t('share') }}
+          </q-tooltip>
+        </q-btn>
+        <q-btn
+          flat
+          dense
+          icon="search"
+          rounded
+          class="q-ml-md"
+          v-if="$q.screen.lt.sm"
+          :style="{ color: color || '#fba124' }"
+        >
+          <q-tooltip :style="{ backgroundColor: color || '#fba124' }">
+            {{ $t('search') }}
+          </q-tooltip>
+        </q-btn>
         <q-btn
           flat
           dense

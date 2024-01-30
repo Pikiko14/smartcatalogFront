@@ -42,7 +42,6 @@ export const useMainStore = defineStore('mainStore', () => {
           // change title
           if (profile.value.brand_name) {
             document.title = profile.value.brand_name;
-            console.log(profile.value);
             if (profile.value.profile_pictury) {
               const newFaviconLink = document.createElement('link');
               newFaviconLink.rel = 'icon';

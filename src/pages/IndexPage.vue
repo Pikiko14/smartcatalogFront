@@ -1,19 +1,22 @@
 <template>
   <q-page class="row items-center justify-evenly">
-    {{ $t('hello') }} {{ catalogue }}</q-page
-  >
+    <HomePageComponent :catalogue="catalogue" />
+  </q-page>
 </template>
 
 <!-- eslint-disable @typescript-eslint/no-explicit-any -->
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount } from 'vue';
-import { useMainStore } from 'src/stores/main';
 import { useRoute } from 'vue-router';
+import HomePageComponent from 'src/components/home.vue';
+import { useMainStore } from 'src/stores/main';
+import { computed, defineComponent, onBeforeMount } from 'vue';
 
 export default defineComponent({
   name: 'MainPage',
-  components: {},
+  components: {
+    HomePageComponent,
+  },
   setup() {
     // data
     const route = useRoute();

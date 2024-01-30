@@ -8,7 +8,7 @@ export interface CatalogueInterface {
   is_active: boolean;
   cover: string | File | undefined | any;
   user_id?: string;
-  pages?: string[];
+  pages?: any[];
   createdAt?: Date;
   updatedAt?: Date;
 }

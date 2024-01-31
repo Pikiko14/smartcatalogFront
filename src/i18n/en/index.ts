@@ -10,4 +10,5 @@ export default {
   search: 'Filters',
   language: 'Language',
   hello: 'Hello all.',
+  close: 'Close',
 };

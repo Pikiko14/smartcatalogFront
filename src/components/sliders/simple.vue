@@ -1,6 +1,6 @@
 <template>
   <section class="slider-container">
-    <div class="slider-wrapper relative" v-if="render">
+    <div class="slider-wrapper relative">
       <swiper
         ref="swiperRef"
         :effect="'fade'"
@@ -19,27 +19,29 @@
           v-for="(page, idx) in catalogue.pages"
           :key="idx"
         >
-          <img
-            id="slider-simple-item"
-            class="slider-simple-item"
-            :src="`${url}/${page.images[0].path}`"
-          />
-          <q-btn
-            v-for="(btn, idx) in buttons"
-            round
-            :key="idx"
-            unelevated
-            @click="doAddProductToCard(btn.product)"
-            text-color="white"
-            icon="shopping_cart"
-            size="8pt"
-            :style="{
-              left: `${btn.x}px`,
-              top: `${btn.y}px`,
-              background: color || '#fba124',
-            }"
-            class="absolute tetx-white"
-          ></q-btn>
+          <template v-if="render">
+            <img
+              id="slider-simple-item"
+              class="slider-simple-item"
+              :src="`${url}/${page.images[0].path}`"
+            />
+            <q-btn
+              v-for="(btn, idx) in buttons"
+              round
+              :key="idx"
+              unelevated
+              @click="doAddProductToCard(btn.product)"
+              text-color="white"
+              icon="shopping_cart"
+              size="8pt"
+              :style="{
+                left: `${btn.x}px`,
+                top: `${btn.y}px`,
+                background: color || '#fba124',
+              }"
+              class="absolute tetx-white"
+            ></q-btn>
+          </template>
         </swiper-slide>
         <!-- Navigation arrows -->
       </swiper>

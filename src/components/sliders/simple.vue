@@ -121,6 +121,7 @@ export default {
 
     //lify cycle
     onBeforeMount(() => {
+    render.value = false
       setTimeout(() => {
         nextTick(() => {
           render.value = true;

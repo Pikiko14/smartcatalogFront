@@ -1,6 +1,7 @@
 <template>
   <div class="thumb-example">
     <swiper
+      :zoom="true"
       class="top-swiper"
       :style="{
         '--swiper-navigation-color': '#fff',
@@ -13,7 +14,12 @@
       :autoplay="{ delay: 4500, pauseOnMouseEnter: true }"
     >
       <swiper-slide class="slide" v-for="(media, idx) in medias" :key="idx">
-        <img class="media-product-galery-img" :src="`${url}/${media.path}`" />
+        <div class="swiper-zoom-container">
+          <img class="media-product-galery-img" :src="`${url}/${media.path}`" />
+        </div>
+        <q-tooltip :style="{ backgroundColor: color || '#fba124' }">
+          {{ $t('doubleClickZoon') }}
+        </q-tooltip>
       </swiper-slide>
     </swiper>
     <swiper
@@ -26,8 +32,13 @@
       :prevent-clicks-propagation="false"
       @swiper="setThumbsSwiper"
     >
-      <swiper-slide class="slide" v-for="(media, idx) in medias" :key="idx">
-        <img class="media-product-galery-img" :src="`${url}/${media.path}`" />
+      <swiper-slide
+        :centered-slides="true"
+        class="slide"
+        v-for="(media, idx) in medias"
+        :key="idx"
+      >
+        <img :src="`${url}/${media.path}`" />
       </swiper-slide>
     </swiper>
   </div>
@@ -35,7 +46,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import { Navigation, Thumbs, Autoplay } from 'swiper/modules';
+import { Navigation, Thumbs, Autoplay, Zoom } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import type SwiperClass from 'swiper';
 import 'swiper/css';
@@ -49,6 +60,10 @@ export default defineComponent({
     medias: {
       type: Array as () => MediaProductInterface[],
       default: () => [],
+    },
+    color: {
+      type: String,
+      default: () => '#fba124',
     },
   },
   components: {
@@ -64,7 +79,7 @@ export default defineComponent({
 
     return {
       url,
-      modules: [Navigation, Thumbs, Autoplay],
+      modules: [Navigation, Thumbs, Autoplay, Zoom],
       setThumbsSwiper,
       thumbsSwiper,
     };
@@ -74,7 +89,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .thumb-example {
-  height: 680px;
+  height: 600px;
 }
 
 .top-swiper,

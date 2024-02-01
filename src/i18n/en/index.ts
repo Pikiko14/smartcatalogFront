@@ -11,4 +11,6 @@ export default {
   language: 'Language',
   hello: 'Hello all.',
   close: 'Close',
+  addToCart: 'Add to shopping bag',
+  doubleClickZoon: 'Double click por zoom in',
 };

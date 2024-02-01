@@ -5,6 +5,7 @@ import { Request } from 'src/api/api';
 import { CatalogueInterface } from 'src/interfaces/catalog.interface';
 import { ResponseObj } from 'src/interfaces/api';
 import { ProfileInterface } from 'src/interfaces/profile.interface';
+import { ProductInterface } from 'src/interfaces/product.interface';
 
 const path = 'catalogues';
 const handlerRequest = new Request({
@@ -15,6 +16,14 @@ const url = process.env.API_URL;
 
 export const useMainStore = defineStore('mainStore', () => {
   // data
+  const product = ref<ProductInterface>({
+    categories: [],
+    description: '',
+    name: '',
+    prices: [],
+    reference: '',
+    tax: 0,
+  });
   const profile = ref<ProfileInterface>({});
   const catalog = ref<CatalogueInterface>({
     _id: '',
@@ -70,10 +79,32 @@ export const useMainStore = defineStore('mainStore', () => {
     }
   };
 
+  const showProduct = async (id: string | undefined) => {
+    try {
+      try {
+        const response = (await handlerRequest.doGetRequest(
+          `products/${id}/show`,
+          '',
+          true
+        )) as ResponseObj;
+        if (response.success) {
+          product.value = response.data;
+        }
+        return response;
+      } catch (error) {
+        console.log(error);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   // return statement
   return {
     profile,
     catalog,
+    product,
+    showProduct,
     showCatalogue,
   };
 });

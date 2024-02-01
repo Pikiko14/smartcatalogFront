@@ -80,12 +80,13 @@ body {
 
 .product-section {
   display: grid;
-  grid-template-columns: 45% 55%;
+  grid-template-columns: 40% 60%;
 }
 
 .media-product-galery-img {
   width: 100%;
   height: 100%;
+  cursor: zoom-in;
 }
 
 @media (min-width: 1600px) {

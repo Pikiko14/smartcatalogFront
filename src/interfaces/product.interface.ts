@@ -24,7 +24,7 @@ export interface PricesInterface {
   _id?: string;
   value: number;
   position: number;
-  status: ['active', 'inactive'];
+  status: StatusPrice;
 }
 
 export interface MediaProductInterface {

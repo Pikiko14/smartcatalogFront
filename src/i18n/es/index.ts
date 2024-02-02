@@ -13,4 +13,8 @@ export default {
   close: 'Cerrar',
   addToCart: 'Agregar a la bolsa',
   doubleClickZoon: 'Doble clic para hacer zoom',
+  selectOption: 'Selecciona una opción',
+  variant: 'Variación',
+  product: 'Producto',
+  addedToCart: 'Item agregado al carrito',
 };

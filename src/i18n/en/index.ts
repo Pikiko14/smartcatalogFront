@@ -13,4 +13,8 @@ export default {
   close: 'Close',
   addToCart: 'Add to shopping bag',
   doubleClickZoon: 'Double click por zoom in',
+  selectOption: 'Select one option',
+  variant: 'Variant',
+  product: 'Product',
+  addedToCart: 'Item added to cart',
 };

@@ -1,5 +1,5 @@
 <template>
-  <section class="product-information row">
+  <section class="product-information row d-flex flex-center">
     <div class="col-12">
       <span class="text-h5 text-bold">
         {{ product.name }}
@@ -47,24 +47,73 @@
         ></section>
       </q-scroll-area>
     </div>
-    <div class="col-12 text-center q-mt-xl">
+    <div
+      class="col-12 col-md-6 text-center q-mt-md"
+      :class="{ 'q-pr-md': $q.screen.gt.sm }"
+      v-if="product.variants && product.variants?.length > 0"
+    >
+      <q-select
+        rounded
+        color="primary"
+        lazy-rules
+        v-model="variant"
+        dense
+        emit-value
+        map-options
+        :options="variants"
+        outlined
+        :label="$t('selectOption')"
+      />
+    </div>
+    <div
+      class="col-12 col-md-6 text-center q-mt-md"
+      :class="{ 'q-pl-md': $q.screen.gt.sm }"
+    >
       <q-btn
         rounded
         no-caps
         unelevated
+        size="12pt"
         text-color="white"
+        class="full-width"
         :label="$t('addToCart')"
+        @click="doAddToShoppingBag"
+        :disable="product.variants && !variant ? true : false"
         :style="{ backgroundColor: color || '#fba124' }"
-      ></q-btn>
+      >
+        <!--<q-menu fit class="round-10">
+          <q-list>
+            <q-item v-for="(variant, idx) in product.variants" :key="idx">
+              <q-item-section>
+                <q-item-label>
+                  {{ variant.attribute }}
+                </q-item-label>
+                <q-item-label caption>
+                  {{ variant.reference }}
+                </q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-menu>-->
+      </q-btn>
     </div>
   </section>
 </template>
 <!-- eslint-disable @typescript-eslint/no-explicit-any -->
 
 <script lang="ts">
-import { ref } from 'vue';
-import { ProductInterface } from 'src/interfaces/product.interface';
+import { computed, ref } from 'vue';
+import {
+  PricesInterface,
+  ProductInterface,
+  StatusPrice,
+  VariantsInterface,
+} from 'src/interfaces/product.interface';
+import { useShoppingBagStore } from 'src/stores/shoppingBag';
 import { CategoryInterface } from 'src/interfaces/categories.interface';
+import { ShoppingBagInterface } from 'src/interfaces/shoppingBag.interface';
+import { notification } from 'src/boot/notification';
+import { useI18n } from 'vue-i18n';
 
 export default {
   name: 'InformationProductComponenet',
@@ -87,14 +136,8 @@ export default {
   },
   setup(props) {
     // data
-    const thumbStyle = ref<any>({
-      right: '4px',
-      borderRadius: '5px',
-      backgroundColor: props.color || '#fba124',
-      width: '5px',
-      opacity: 0.75,
-    });
-
+    const { t } = useI18n();
+    const variant = ref<any>();
     const barStyle = ref<any>({
       right: '2px',
       borderRadius: '9px',
@@ -102,11 +145,73 @@ export default {
       width: '9px',
       opacity: 0.2,
     });
+    const thumbStyle = ref<any>({
+      right: '4px',
+      borderRadius: '5px',
+      backgroundColor: props.color || '#fba124',
+      width: '5px',
+      opacity: 0.75,
+    });
+    const shoppingStore = useShoppingBagStore();
+
+    // computed
+    const variants = computed(() => {
+      return props.product.variants?.map((data: VariantsInterface) => {
+        return {
+          label: data.attribute,
+          value: data.reference,
+          prices: data.prices,
+        };
+      });
+    });
+
+    // methods
+    const doAddToShoppingBag = () => {
+      try {
+        const item: any = variant.value
+          ? props.product?.variants?.find(
+              (data: VariantsInterface) =>
+                data.reference.toLocaleLowerCase() ===
+                variant.value.toLocaleLowerCase()
+            )
+          : props.product;
+        const pricesArr =
+          item?.prices && item?.prices.length > 0
+            ? item?.prices
+            : props.product.prices;
+        const price = getPrice(pricesArr);
+        const data: ShoppingBagInterface = {
+          price: price.value,
+          pricesList: pricesArr,
+          reference: item?.reference,
+          attribute: item?.attribute || '',
+          quantity: 1,
+          tax: item.tax,
+        };
+        shoppingStore.pushItemToBag(data);
+        notification('positive', t('addedToCart'), 'primary');
+        variant.value = null;
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    const getPrice = (prices: PricesInterface[] | any) => {
+      if (prices && prices.length > 0) {
+        return prices.find(
+          (data: PricesInterface) => data.status === StatusPrice.active
+        );
+      }
+      return null;
+    };
 
     // return data
     return {
-      thumbStyle,
+      variant,
       barStyle,
+      variants,
+      thumbStyle,
+      doAddToShoppingBag,
     };
   },
 };

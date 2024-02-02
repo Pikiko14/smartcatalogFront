@@ -87,40 +87,4 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" scoped>
-.thumb-example {
-  height: 600px;
-}
-
-.top-swiper,
-.thumbs-swiper {
-  .slide {
-    img {
-      display: block;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-  }
-}
-
-.top-swiper {
-  height: 85%;
-  width: 100%;
-}
-
-.thumbs-swiper {
-  height: 15%;
-  box-sizing: border-box;
-  padding: 10 0;
-
-  .slide {
-    width: 25%;
-    height: 100%;
-    opacity: 1;
-    &:not(.swiper-slide-thumb-active) {
-      opacity: 0.4;
-    }
-  }
-}
-</style>
+<style lang="scss" scoped></style>

@@ -82,6 +82,14 @@
           <q-tooltip :style="{ backgroundColor: color || '#fba124' }">
             {{ $t('soppingBag') }}
           </q-tooltip>
+          <q-chip
+            v-if="totalItemsInBag > 0"
+            size="7pt"
+            color="primary"
+            class="text-white chip-bag"
+          >
+            {{ totalItemsInBag }}
+          </q-chip>
         </q-btn>
         <q-btn
           flat
@@ -134,6 +142,9 @@
 import { useI18n } from 'vue-i18n';
 import { defineComponent } from 'vue';
 import { LocalStorage } from 'quasar';
+import { useShoppingBagStore } from 'src/stores/shoppingBag';
+import { computed } from 'vue';
+import { ShoppingBagInterface } from 'src/interfaces/shoppingBag.interface';
 
 export default defineComponent({
   name: 'HeaderLayoutComponenet',
@@ -154,16 +165,30 @@ export default defineComponent({
   components: {},
   setup() {
     // data
+    const shoppingStore = useShoppingBagStore();
     const { locale } = useI18n({ useScope: 'global' });
     const localeOptions = [
       { value: 'es', label: 'Spanish', icon: '/images/spanish.png' },
       { value: 'en', label: 'English', icon: '/images/english.png' },
     ];
 
+    // computed
+    const totalItemsInBag = computed(() => {
+      //return shoppingStore.items
+      //  ? shoppingStore.items.reduce(
+      //      (a: ShoppingBagInterface, b: ShoppingBagInterface) => {
+      //        return a.quantity + b.quantity;
+      //      }
+      //    )
+      //  : 0;
+      return 0;
+    });
+
     // return
     return {
       locale,
       localeOptions,
+      totalItemsInBag,
       setLocale(lang: string) {
         locale.value = lang;
         LocalStorage.set('lang', lang);

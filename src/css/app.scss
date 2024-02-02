@@ -125,6 +125,12 @@ body {
   }
 }
 
+.chip-bag {
+  position: absolute;
+  right: -12px;
+  top: -4px;
+}
+
 @media (min-width: 1600px) {
   .slider-wrapper {
     max-width: 30%;

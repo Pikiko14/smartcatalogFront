@@ -66,7 +66,7 @@
       />
     </div>
     <div
-      class="col-12 col-md-6 text-center q-mt-md"
+      class="col-12 col-md-6 text-center q-mt-lg"
       :class="{ 'q-pl-md': $q.screen.gt.sm }"
     >
       <q-btn
@@ -78,7 +78,11 @@
         class="full-width"
         :label="$t('addToCart')"
         @click="doAddToShoppingBag"
-        :disable="product.variants && !variant ? true : false"
+        :disable="
+          product.variants && product.variants.length > 0 && !variant
+            ? true
+            : false
+        "
         :style="{ backgroundColor: color || '#fba124' }"
       >
         <!--<q-menu fit class="round-10">
@@ -187,6 +191,8 @@ export default {
           attribute: item?.attribute || '',
           quantity: 1,
           tax: item.tax,
+          name: props.product.name,
+          img: props.product.default_image?.path || '',
         };
         shoppingStore.pushItemToBag(data);
         notification('positive', t('addedToCart'), 'primary');

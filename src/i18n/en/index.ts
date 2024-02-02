@@ -17,4 +17,9 @@ export default {
   variant: 'Variant',
   product: 'Product',
   addedToCart: 'Item added to cart',
+  shoppingBag: 'Shopping Bag',
+  finishOrder: 'Finish order',
+  delete: 'Delete',
+  noProductInCart: 'No products in bag',
+  editQuantity: 'Edit quantity',
 };

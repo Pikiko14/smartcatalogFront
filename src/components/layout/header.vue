@@ -74,9 +74,10 @@
         <q-btn
           flat
           dense
-          icon="shopping_bag"
           rounded
           class="q-ml-md"
+          icon="shopping_bag"
+          @click="openShoppingBag"
           :style="{ color: color || '#fba124' }"
         >
           <q-tooltip :style="{ backgroundColor: color || '#fba124' }">
@@ -144,7 +145,6 @@ import { defineComponent } from 'vue';
 import { LocalStorage } from 'quasar';
 import { useShoppingBagStore } from 'src/stores/shoppingBag';
 import { computed } from 'vue';
-import { ShoppingBagInterface } from 'src/interfaces/shoppingBag.interface';
 
 export default defineComponent({
   name: 'HeaderLayoutComponenet',
@@ -163,7 +163,7 @@ export default defineComponent({
     },
   },
   components: {},
-  setup() {
+  setup(props, { emit }) {
     // data
     const shoppingStore = useShoppingBagStore();
     const { locale } = useI18n({ useScope: 'global' });
@@ -174,21 +174,26 @@ export default defineComponent({
 
     // computed
     const totalItemsInBag = computed(() => {
-      //return shoppingStore.items
-      //  ? shoppingStore.items.reduce(
-      //      (a: ShoppingBagInterface, b: ShoppingBagInterface) => {
-      //        return a.quantity + b.quantity;
-      //      }
-      //    )
-      //  : 0;
-      return 0;
+      const totalQuantity = shoppingStore.items
+        ? shoppingStore.items.reduce(
+            (totalQuantity, item) => totalQuantity + item.quantity,
+            0
+          )
+        : 0;
+
+      return totalQuantity;
     });
+
+    const openShoppingBag = () => {
+      emit('open-shopping-bag');
+    };
 
     // return
     return {
       locale,
       localeOptions,
       totalItemsInBag,
+      openShoppingBag,
       setLocale(lang: string) {
         locale.value = lang;
         LocalStorage.set('lang', lang);

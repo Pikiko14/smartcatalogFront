@@ -7,4 +7,8 @@ export interface ShoppingBagInterface {
   quantity: number;
   reference: string;
   tax: number;
+  name: string;
+  img: string;
+  total?: number;
+  taxTotal?: number | string;
 }

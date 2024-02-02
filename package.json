@@ -13,6 +13,7 @@
     "build": "cross-env QENV=production quasar build -m spa"
   },
   "dependencies": {
+    "@chenfengyuan/vue-number-input": "^2.0.1",
     "@quasar/extras": "^1.16.4",
     "axios": "^1.2.1",
     "pinia": "^2.0.11",

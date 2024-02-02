@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useAuthStore } from 'src/stores/auth';
 
 export class Utils {
   model: string;
@@ -14,26 +13,6 @@ export class Utils {
     }
     const val = (price / 1).toFixed(0).replace('.', ',');
     return '$' + val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-  }
-
-  validatePermission(available: string): boolean {
-    const store = useAuthStore();
-    const permissions =
-      store.user.scopes && store.user.scopes.length > 0
-        ? store.user.scopes
-        : [];
-    let enable = false;
-    if (permissions && permissions.length > 0) {
-      for (const permission of permissions) {
-        if (permission !== available) {
-          enable = false;
-        } else {
-          enable = true;
-          break;
-        }
-      }
-    }
-    return enable;
   }
 
   transformObjectInFormData(

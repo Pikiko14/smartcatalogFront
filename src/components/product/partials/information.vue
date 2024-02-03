@@ -53,7 +53,7 @@
       </q-scroll-area>
     </div>
     <div
-      class="col-12 col-md-6 text-center q-mt-md"
+      class="col-12 col-md-6 text-center q-mt-lg"
       :class="{ 'q-pr-md': $q.screen.gt.sm }"
       v-if="product.variants && product.variants?.length > 0"
     >

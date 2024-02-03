@@ -1,6 +1,7 @@
 <template>
   <q-page class="row items-center justify-evenly">
     <HomePageComponent :catalogue="catalogue" :profile="profile" />
+    <Loader v-if="!loadedCatalog" />
   </q-page>
 </template>
 
@@ -8,19 +9,22 @@
 
 <script lang="ts">
 import { useRoute } from 'vue-router';
-import HomePageComponent from 'src/components/home.vue';
 import { useMainStore } from 'src/stores/main';
-import { computed, defineComponent, onBeforeMount } from 'vue';
+import Loader from 'src/components/layout/loader.vue';
+import HomePageComponent from 'src/components/home.vue';
+import { computed, defineComponent, onBeforeMount, ref } from 'vue';
 
 export default defineComponent({
   name: 'MainPage',
   components: {
     HomePageComponent,
+    Loader,
   },
   setup() {
     // data
     const route = useRoute();
     const store = useMainStore();
+    const loadedCatalog = ref(false);
 
     // computed
     const catalogue = computed(() => {
@@ -39,7 +43,12 @@ export default defineComponent({
           const realTitle = document.title;
           document.title = `${realTitle} | ${response?.data.catalogue.name}`;
         }
-      } catch (error) {}
+      } catch (error) {
+      } finally {
+        setTimeout(() => {
+          loadedCatalog.value = true;
+        }, 800);
+      }
     };
 
     // hook
@@ -52,6 +61,7 @@ export default defineComponent({
     return {
       profile,
       catalogue,
+      loadedCatalog,
     };
   },
 });

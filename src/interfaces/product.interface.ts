@@ -14,8 +14,8 @@ export interface ProductInterface {
   ratings?: RatingsInterface[];
   unit_of_measurement?: string;
   variants?: VariantsInterface[];
-  medias?: MediaProductInterface[];
   categories: CategoryInterface[];
+  medias?: MediaProductInterface[];
   default_image?: MediaProductInterface;
 }
 

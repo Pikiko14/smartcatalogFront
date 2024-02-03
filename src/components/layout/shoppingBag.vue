@@ -34,19 +34,22 @@
             <q-item-label caption>
               {{ item.quantity }} x {{ utils.formatPrice(item.price) }}
             </q-item-label>
-            <q-popup-edit
-              v-model="item.quantity"
-              :title="$t('editQuantity')"
-              auto-save
-              v-slot="scope"
-            >
-              <VueNumberInput
+            <q-popup-edit v-model="item.quantity" auto-save v-slot="scope">
+              <q-input
+                rounded
+                dense
+                outlined
+                style="width: 160px"
                 v-model="scope.value"
-                :min="0"
-                inline
-                center
-                controls
-              />
+                class="quiantity-input"
+              >
+                <template v-slot:prepend>
+                  <q-btn flat dense rounded icon="remove"></q-btn>
+                </template>
+                <template v-slot:append>
+                  <q-btn flat dense rounded icon="add"></q-btn>
+                </template>
+              </q-input>
             </q-popup-edit>
             <q-tooltip :style="{ backgroundColor: color || '#fba124' }">
               {{ $t('editQuantity') }}
@@ -115,6 +118,7 @@
       class="absolute-top"
       icon="close"
       color="red"
+      style="top: 20px; left: 5px"
       dense
       rounded
       flat
@@ -129,7 +133,6 @@
 <script lang="ts">
 import { Utils } from 'src/utils/utils';
 import { computed, defineComponent } from 'vue';
-import VueNumberInput from '@chenfengyuan/vue-number-input';
 import { useShoppingBagStore } from 'src/stores/shoppingBag';
 
 export default defineComponent({
@@ -140,9 +143,7 @@ export default defineComponent({
       default: () => '#fba124',
     },
   },
-  components: {
-    VueNumberInput,
-  },
+  components: {},
   setup(props, { emit }) {
     // data
     const utils = new Utils('bag');

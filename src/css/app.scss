@@ -4,7 +4,7 @@ body {
 }
 
 .logo-img {
-  max-width: 120px;
+  max-width: 90px;
   max-height: 50px;
 }
 
@@ -178,6 +178,23 @@ body {
   width: 90%;
   border-top: 1px solid rgba(0, 0, 0, 0.175);
   padding-top: 15px;
+}
+
+.q-dialog__title {
+  margin-top: 0px;
+  font-size: 12pt;
+}
+
+.quiantity-input input {
+  text-align: center;
+}
+
+.q-popup-edit {
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
 }
 
 .shopping-bag .no-product-section {

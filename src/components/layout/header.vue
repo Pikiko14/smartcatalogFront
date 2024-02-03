@@ -84,10 +84,10 @@
             {{ $t('soppingBag') }}
           </q-tooltip>
           <q-chip
-            v-if="totalItemsInBag > 0"
             size="7pt"
-            color="primary"
+            v-if="totalItemsInBag > 0"
             class="text-white chip-bag"
+            :style="{ backgroundColor: color ? '#fba124' : '#000000' }"
           >
             {{ totalItemsInBag }}
           </q-chip>

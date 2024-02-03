@@ -3,6 +3,7 @@
     <!--header-->
     <q-header class="bg-white">
       <HeaderToolbar
+        :color="color"
         :title="title"
         :brandIcon="
           profile.profile_pictury
@@ -22,7 +23,10 @@
       :width="340"
       elevated
     >
-      <ShoppingBag @close-shopping-bag="shoppingBagDrawer = false" />
+      <ShoppingBag
+        :color="color"
+        @close-shopping-bag="shoppingBagDrawer = false"
+      />
     </q-drawer>
     <!--end drawer-->
 
@@ -63,6 +67,10 @@ export default defineComponent({
       shoppingBagDrawer.value = !shoppingBagDrawer.value;
     };
 
+    const color = computed(() => {
+      return profile.value.brand_color;
+    });
+
     // hook
     onBeforeMount(() => {
       if (LocalStorage.getItem('lang')) {
@@ -73,6 +81,7 @@ export default defineComponent({
     return {
       url,
       title,
+      color,
       profile,
       openShoppingBag,
       shoppingBagDrawer,

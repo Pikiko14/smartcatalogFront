@@ -8,6 +8,8 @@ export interface ProfileInterface {
   website?: string;
   type_slider?: TypeSlider;
   user_id?: string;
+  brand_color?: string;
+  whatsapp_message?: string;
 }
 
 // Define el enum

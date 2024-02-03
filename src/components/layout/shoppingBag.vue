@@ -12,10 +12,10 @@
     <q-scroll-area class="shopping-bag-body" v-if="shoppingItems.length > 0">
       <q-list class="q-pa-none" separator inset>
         <q-item
-          class="q-pa-none"
+          class="q-pa-none q-pb-sm"
           v-for="(item, idx) in shoppingItems"
           :key="idx"
-          :class="{ 'q-mt-sm': $q.screen.gt.sm }"
+          :class="{ 'q-py-sm': idx > 0 }"
         >
           <q-item-section avatar>
             <q-avatar size="40pt">
@@ -34,20 +34,38 @@
             <q-item-label caption>
               {{ item.quantity }} x {{ utils.formatPrice(item.price) }}
             </q-item-label>
-            <q-popup-edit v-model="item.quantity" auto-save v-slot="scope">
+            <q-popup-edit
+              ref="popupEditQuantity"
+              v-model="item.quantity"
+              auto-save
+            >
               <q-input
                 rounded
                 dense
                 outlined
+                debounce="1000"
                 style="width: 160px"
-                v-model="scope.value"
+                v-model.number="item.quantity"
                 class="quiantity-input"
+                @update:model-value="setQuantity(idx, item.quantity)"
               >
                 <template v-slot:prepend>
-                  <q-btn flat dense rounded icon="remove"></q-btn>
+                  <q-btn
+                    @click="removeOne(idx)"
+                    flat
+                    dense
+                    rounded
+                    icon="remove"
+                  ></q-btn>
                 </template>
                 <template v-slot:append>
-                  <q-btn flat dense rounded icon="add"></q-btn>
+                  <q-btn
+                    @click="pushOne(idx)"
+                    flat
+                    dense
+                    rounded
+                    icon="add"
+                  ></q-btn>
                 </template>
               </q-input>
             </q-popup-edit>
@@ -132,7 +150,7 @@
 
 <script lang="ts">
 import { Utils } from 'src/utils/utils';
-import { computed, defineComponent } from 'vue';
+import { computed, defineComponent, ref } from 'vue';
 import { useShoppingBagStore } from 'src/stores/shoppingBag';
 
 export default defineComponent({
@@ -147,6 +165,7 @@ export default defineComponent({
   setup(props, { emit }) {
     // data
     const utils = new Utils('bag');
+    const popupEditQuantity = ref();
     const url = process.env.API_URL;
     const shoppingStore = useShoppingBagStore();
 
@@ -167,14 +186,33 @@ export default defineComponent({
       shoppingStore.deleteItemFromBag(idx);
     };
 
+    const pushOne = (idx: number) => {
+      shoppingStore.pushOne(idx);
+    };
+
+    const removeOne = (idx: number) => {
+      shoppingStore.removeOne(idx);
+    };
+
+    const setQuantity = (idx: number, quantity: number) => {
+      shoppingStore.setQuantity(idx, quantity);
+      if (quantity && quantity > 0) {
+        popupEditQuantity.value[idx].hide();
+      }
+    };
+
     // return
     return {
       url,
       total,
       utils,
+      pushOne,
+      removeOne,
       deleteItem,
+      setQuantity,
       shoppingItems,
       closeShippingBag,
+      popupEditQuantity,
     };
   },
 });

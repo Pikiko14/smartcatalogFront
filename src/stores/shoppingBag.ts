@@ -42,10 +42,37 @@ export const useShoppingBagStore = defineStore('shoppingBagStore', () => {
     });
   };
 
+  const pushOne = (idx: number) => {
+    if (items.value[idx]) {
+      items.value[idx].quantity++;
+    }
+    calculateTotal();
+  };
+
+  const removeOne = (idx: number) => {
+    if (items.value[idx]) {
+      items.value[idx].quantity--;
+      if (items.value[idx].quantity === 0) {
+        items.value.splice(idx, 1);
+      }
+    }
+    calculateTotal();
+  };
+
+  const setQuantity = (idx: number, quantity: number) => {
+    if (items.value[idx]) {
+      items.value[idx].quantity = quantity;
+    }
+    calculateTotal();
+  };
+
   // return statement
   return {
     total,
     items,
+    pushOne,
+    removeOne,
+    setQuantity,
     pushItemToBag,
     deleteItemFromBag,
   };

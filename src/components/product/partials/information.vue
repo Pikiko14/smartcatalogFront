@@ -21,6 +21,11 @@
       </q-btn>
     </div>
     <div class="col-12">
+      <span class="text-h5 text-bold">
+        {{ price }}
+      </span>
+    </div>
+    <div class="col-12">
       <span class="font-12 text-bold">
         <q-chip
           size="8pt"
@@ -118,6 +123,7 @@ import { CategoryInterface } from 'src/interfaces/categories.interface';
 import { ShoppingBagInterface } from 'src/interfaces/shoppingBag.interface';
 import { notification } from 'src/boot/notification';
 import { useI18n } from 'vue-i18n';
+import { Utils } from 'src/utils/utils';
 
 export default {
   name: 'InformationProductComponenet',
@@ -156,6 +162,7 @@ export default {
       width: '5px',
       opacity: 0.75,
     });
+    const utils = new Utils('product');
     const shoppingStore = useShoppingBagStore();
 
     // computed
@@ -167,6 +174,13 @@ export default {
           prices: data.prices,
         };
       });
+    });
+
+    const price = computed(() => {
+      const price = props.product.prices.find(
+        (data: PricesInterface) => data.status === 'active'
+      );
+      return utils.formatPrice(price?.value || 0);
     });
 
     // methods
@@ -217,6 +231,7 @@ export default {
       barStyle,
       variants,
       thumbStyle,
+      price,
       doAddToShoppingBag,
     };
   },

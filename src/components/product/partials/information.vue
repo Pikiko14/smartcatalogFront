@@ -26,18 +26,24 @@
       </span>
     </div>
     <div class="col-12">
-      <span class="font-12 text-bold">
-        <q-chip
-          size="8pt"
-          square
-          class="text-white"
-          v-for="(category, idx) in categories"
-          :key="idx"
-          :style="{ backgroundColor: color || '#fba124' }"
-        >
-          {{ category.name }}
-        </q-chip>
-      </span>
+      <q-scroll-area style="height: 30px; width: 20%">
+        <div class="row no-gutter">
+          <span
+            class="font-12 text-bold"
+            v-for="(category, idx) in categories"
+            :key="idx"
+          >
+            <q-chip
+              size="8pt"
+              square
+              class="text-white"
+              :style="{ backgroundColor: color || '#fba124' }"
+            >
+              {{ category.name }}
+            </q-chip>
+          </span>
+        </div>
+      </q-scroll-area>
     </div>
     <div class="col-12 q-mt-md">
       <q-scroll-area

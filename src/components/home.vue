@@ -2,6 +2,7 @@
   <section class="full-width q-px-lg">
     <!--Slider section-->
     <SimpleSlider
+      :color="color"
       :catalogue="catalogue"
       @show-product="doShowProduct"
       v-if="profile.type_slider === 'Simple'"
@@ -12,7 +13,7 @@
     <q-dialog v-model="openProductModal" @before-hide="clearProduct">
       <q-card class="round-10 product-card">
         <q-card-section class="q-pa-none">
-          <ProductCard :product="product" />
+          <ProductCard :color="color" :product="product" />
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -22,7 +23,7 @@
 <!-- eslint-disable @typescript-eslint/no-explicit-any -->
 
 <script lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import SimpleSlider from './sliders/simple.vue';
 import ProductCard from './product/productCard.vue';
 import { ProductInterface } from 'src/interfaces/product.interface';
@@ -49,7 +50,7 @@ export default {
       },
     },
   },
-  setup() {
+  setup(props) {
     // data
     const product = ref<ProductInterface>({
       categories: [],
@@ -60,6 +61,11 @@ export default {
       tax: 19,
     });
     const openProductModal = ref<boolean>(false);
+
+    // computed
+    const color = computed(() => {
+      return props.profile.brand_color;
+    });
 
     // methods
     const doShowProduct = (data: ProductInterface) => {
@@ -84,6 +90,7 @@ export default {
 
     // return data
     return {
+      color,
       product,
       clearProduct,
       doShowProduct,

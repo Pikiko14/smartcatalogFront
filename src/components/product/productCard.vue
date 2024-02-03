@@ -1,10 +1,11 @@
 <template>
   <section class="product-section relative">
     <div class="product-galery q-py-none">
-      <MediasGalery :medias="product.medias" />
+      <MediasGalery :color="color" :medias="product.medias" />
     </div>
     <div class="product-detailt q-pa-md">
       <InformationProduct
+        :color="color"
         :product="product"
         :categories="productBd.categories"
       />
@@ -32,6 +33,10 @@ export default {
       default: () => {
         return {};
       },
+    },
+    color: {
+      type: String,
+      default: () => '',
     },
   },
   setup(props) {

@@ -26,8 +26,8 @@
       </span>
     </div>
     <div class="col-12">
-      <q-scroll-area style="height: 30px; width: 20%">
-        <div class="row no-gutter">
+      <q-scroll-area style="height: 30px; width: 100%">
+        <div class="row no-wrap">
           <span
             class="font-12 text-bold"
             v-for="(category, idx) in categories"

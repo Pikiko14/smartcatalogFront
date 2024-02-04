@@ -385,12 +385,19 @@ export default defineComponent({
         console.error('No hay mensaje de WhatsApp disponible.');
         return;
       }
+      // set client data
+      const keysObject = Object.keys(client.value);
+      keysObject.map((data: any) => {
+        console.log(data);
+      });
+      // set shoppin items data
       let itemsString = '';
       shoppingItems.value.forEach((data: ShoppingBagInterface) => {
         itemsString += `*${data.name} | ${data.attribute} | x${
           data.quantity
         } | ${utils.formatPrice(data.total)}* %0D%0A`;
       });
+      // replace templates
       const replacements = [
         { pattern: /<br>/g, replacement: '%0D%0A' },
         { pattern: /<div>/g, replacement: '' },
@@ -407,6 +414,7 @@ export default defineComponent({
       replacements.forEach(({ pattern, replacement }) => {
         messageClean = messageClean.replace(pattern, replacement);
       });
+      // return messages
       return messageClean;
     };
 

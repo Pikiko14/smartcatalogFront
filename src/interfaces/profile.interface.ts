@@ -18,3 +18,14 @@ export enum TypeSlider {
   Double = 'Double',
   Landing = 'Landing',
 }
+
+export interface ClientInterface {
+  name: string;
+  last_name: string;
+  email: string;
+  phone: string;
+  address: string;
+  city: string;
+  document: string;
+  country: string;
+}

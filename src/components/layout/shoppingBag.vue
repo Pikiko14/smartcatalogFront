@@ -123,6 +123,7 @@
         :style="{ backgroundColor: color || '#fba124' }"
         unelevated
         rounded
+        @click="finishOrder"
         class="text-white"
         no-caps
         :label="$t('finishOrder')"
@@ -201,6 +202,10 @@ export default defineComponent({
       }
     };
 
+    const finishOrder = () => {
+      emit('finish-order');
+    }
+
     // return
     return {
       url,
@@ -209,6 +214,7 @@ export default defineComponent({
       pushOne,
       removeOne,
       deleteItem,
+      finishOrder,
       setQuantity,
       shoppingItems,
       closeShippingBag,

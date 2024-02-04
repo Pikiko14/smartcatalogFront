@@ -22,4 +22,18 @@ export default {
   delete: 'Borrar',
   noProductInCart: 'Sin productos.',
   editQuantity: 'Editar cantidad',
+  completePurchaseOrder: 'Completar orden',
+  name: 'Nombre',
+  lastName: 'Apellido',
+  required: 'Este campo es requerido',
+  moreThree: 'Mayor 3 caracteres',
+  loweSixthing: 'Menor a 60 caracteres',
+  invalidEmail: 'El valor no es una dirección de correo electrónico válida.',
+  document: '#Documento',
+  phone: 'Teléfono',
+  phoneRegexInvalid:
+    'Por favor, introduce un número de teléfono válido con el código de tu país.',
+  country: 'Pais',
+  city: 'Ciudad',
+  address: 'Dirección',
 };

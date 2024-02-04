@@ -32,4 +32,6 @@ export default {
   country: 'Country',
   city: 'City',
   address: 'Address',
+  email: 'Email',
+  soppingBag: 'Shopping bag',
 };

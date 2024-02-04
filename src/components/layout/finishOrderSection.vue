@@ -231,7 +231,7 @@
 <!-- eslint-disable @typescript-eslint/no-explicit-any -->
 
 <script lang="ts">
-import { defineComponent, onBeforeMount, ref } from 'vue';
+import { computed, defineComponent, onBeforeMount, ref } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import {
   required,
@@ -241,6 +241,10 @@ import {
   helpers,
 } from '@vuelidate/validators';
 import { ClientInterface } from 'src/interfaces/profile.interface';
+import { useShoppingBagStore } from 'src/stores/shoppingBag';
+import { useMainStore } from 'src/stores/main';
+import { ShoppingBagInterface } from 'src/interfaces/shoppingBag.interface';
+import { Utils } from 'src/utils/utils';
 const { regex } = helpers;
 
 export default defineComponent({
@@ -253,6 +257,7 @@ export default defineComponent({
   },
   setup() {
     // data
+    const utils = new Utils('order');
     const countries = ref<any>([]);
     const countriesAll = ref<any>([]);
     const client = ref<ClientInterface>({
@@ -265,6 +270,8 @@ export default defineComponent({
       phone: '',
       country: 'Colombia',
     });
+    const mainStore = useMainStore();
+    const shoppingStore = useShoppingBagStore();
 
     // rules
     const orderRule = {
@@ -306,6 +313,17 @@ export default defineComponent({
     const v$ = useVuelidate(orderRule, client);
 
     // computed
+    const shoppingItems = computed(() => {
+      return shoppingStore.items;
+    });
+
+    const total = computed(() => {
+      return shoppingStore.total;
+    });
+
+    const profile = computed(() => {
+      return mainStore.profile;
+    });
 
     // methods
     const listCountries = async () => {
@@ -350,10 +368,46 @@ export default defineComponent({
       if (v$.value.$invalid) {
         return;
       }
+      // prepare message label
+      const message = prepareMessage();
+      // send order to backend
       try {
+        const whatsappLink = `https://wa.me/${profile.value.phone_number}/?text=${message}`;
+        window.open(whatsappLink, '_blank');
       } catch (error) {
       } finally {
       }
+    };
+
+    const prepareMessage = () => {
+      const whatsappMessage = profile.value.whatsapp_message;
+      if (!whatsappMessage) {
+        console.error('No hay mensaje de WhatsApp disponible.');
+        return;
+      }
+      let itemsString = '';
+      shoppingItems.value.forEach((data: ShoppingBagInterface) => {
+        itemsString += `*${data.name} | ${data.attribute} | x${
+          data.quantity
+        } | ${utils.formatPrice(data.total)}* %0D%0A`;
+      });
+      const replacements = [
+        { pattern: /<br>/g, replacement: '%0D%0A' },
+        { pattern: /<div>/g, replacement: '' },
+        { pattern: /<\/div>/g, replacement: '' },
+        { pattern: /<b>/g, replacement: '*' },
+        { pattern: /<\/b>/g, replacement: '*' },
+        { pattern: /{{\s*order\s*}}/g, replacement: itemsString },
+        {
+          pattern: /{{\s*total\s*}}/g,
+          replacement: utils.formatPrice(total.value),
+        },
+      ];
+      let messageClean = whatsappMessage;
+      replacements.forEach(({ pattern, replacement }) => {
+        messageClean = messageClean.replace(pattern, replacement);
+      });
+      return messageClean;
     };
 
     // hook

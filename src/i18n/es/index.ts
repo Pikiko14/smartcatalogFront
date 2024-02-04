@@ -36,4 +36,5 @@ export default {
   country: 'Pais',
   city: 'Ciudad',
   address: 'Dirección',
+  email: 'Correo electrónico',
 };

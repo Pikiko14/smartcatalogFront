@@ -449,9 +449,16 @@ export default defineComponent({
       return cleanMessage;
     };
 
+    const addProductToCart = async () => {
+      try {
+        await shoppingStore.addToCart();
+      } catch (error) {}
+    };
+
     // hook
     onBeforeMount(async () => {
       await listCountries();
+      await addProductToCart();
     });
 
     // return

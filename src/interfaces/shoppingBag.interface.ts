@@ -11,4 +11,5 @@ export interface ShoppingBagInterface {
   img: string;
   total?: number;
   taxTotal?: number | string;
+  parent?: string | undefined;
 }

@@ -213,6 +213,7 @@ export default {
           tax: item.tax,
           name: props.product.name,
           img: props.product.default_image?.path || '',
+          parent: props.product?._id,
         };
         shoppingStore.pushItemToBag(data);
         notification('positive', t('addedToCart'), 'primary');

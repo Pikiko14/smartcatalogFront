@@ -1,11 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ref } from 'vue';
 import { defineStore } from 'pinia';
+import { Request } from 'src/api/api';
 import { ShoppingBagInterface } from 'src/interfaces/shoppingBag.interface';
+import { ResponseObj } from 'src/interfaces/api';
+
+const pathProduct = 'products';
+const handlerRequest = new Request({
+  Accept: 'application/json',
+});
 
 export const useShoppingBagStore = defineStore('shoppingBagStore', () => {
   // data
   const total = ref<number>(0);
+  const addedToCart = ref<any[]>([]);
   const items = ref<ShoppingBagInterface[]>([]);
 
   // methods
@@ -15,6 +23,12 @@ export const useShoppingBagStore = defineStore('shoppingBagStore', () => {
     );
     // si no existe lo agregamos
     if (index === -1) {
+      const addexIndex = addedToCart.value.findIndex(
+        (data: string) => data === item.parent
+      );
+      if (addexIndex === -1) {
+        addedToCart.value.push(item.parent);
+      }
       items.value.push(item);
     } else {
       // si existe le sumamos una unidad
@@ -66,12 +80,34 @@ export const useShoppingBagStore = defineStore('shoppingBagStore', () => {
     calculateTotal();
   };
 
+  const addToCart = async () => {
+    if (addedToCart.value.length === 0) {
+      return false;
+    }
+    try {
+      const params = {
+        products: addedToCart.value,
+      };
+      const response = (await handlerRequest.doPostRequest(
+        `${pathProduct}/add/to/cart`,
+        params,
+        true
+      )) as ResponseObj;
+      if (response.success) {
+        addedToCart.value = [];
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   // return statement
   return {
     total,
     items,
     pushOne,
     removeOne,
+    addToCart,
     setQuantity,
     pushItemToBag,
     deleteItemFromBag,

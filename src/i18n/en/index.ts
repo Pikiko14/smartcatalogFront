@@ -25,7 +25,7 @@ export default {
   moreThree: 'Must be more than 3 characters',
   lowerSixty: 'Must be lower than 60 characters',
   invalidEmail: 'Value is not a valid email address',
-  document: '#Document',
+  document: 'Document',
   phone: 'Phone',
   phoneRegexInvalid:
     'Please enter a valid phone number with your country code.',
@@ -34,4 +34,6 @@ export default {
   address: 'Address',
   email: 'Email',
   soppingBag: 'Shopping bag',
+  last_name: 'Last name',
+  noValid: 'Value invalid',
 };

@@ -29,7 +29,7 @@ export default {
   moreThree: 'Mayor 3 caracteres',
   loweSixthing: 'Menor a 60 caracteres',
   invalidEmail: 'El valor no es una dirección de correo electrónico válida.',
-  document: '#Documento',
+  document: 'Documento',
   phone: 'Teléfono',
   phoneRegexInvalid:
     'Por favor, introduce un número de teléfono válido con el código de tu país.',
@@ -37,4 +37,6 @@ export default {
   city: 'Ciudad',
   address: 'Dirección',
   email: 'Correo electrónico',
+  last_name: 'Apellido',
+  noValid: 'Valor inválido',
 };

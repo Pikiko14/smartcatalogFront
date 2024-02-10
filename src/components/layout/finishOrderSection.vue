@@ -24,6 +24,9 @@
             <span v-if="v$.name.maxLength.$invalid">
               {{ $t('loweSixthing') }}
             </span>
+            <span v-if="v$.name.regex.$invalid">
+              {{ $t('noValid') }}
+            </span>
           </template>
         </q-input>
       </div>
@@ -49,6 +52,9 @@
             </span>
             <span v-if="v$.last_name.maxLength.$invalid">
               {{ $t('loweSixthing') }}
+            </span>
+            <span v-if="v$.last_name.regex.$invalid">
+              {{ $t('noValid') }}
             </span>
           </template>
         </q-input>
@@ -184,6 +190,9 @@
             <span v-if="v$.city.maxLength.$invalid">
               {{ $t('loweSixthing') }}
             </span>
+            <span v-if="v$.city.regex.$invalid">
+              {{ $t('noValid') }}
+            </span>
           </template>
         </q-input>
       </div>
@@ -195,7 +204,6 @@
           lazy-rules
           dense
           outlined
-          type="textarea"
           placeholder="Carrera 84 # 52 FC, Belen antioquia"
           v-model="client.address"
           @blur="v$.address.$touch"
@@ -210,6 +218,9 @@
             </span>
             <span v-if="v$.address.maxLength.$invalid">
               {{ $t('loweSixthing') }}
+            </span>
+            <span v-if="v$.address.regex.$invalid">
+              {{ $t('noValid') }}
             </span>
           </template>
         </q-input>
@@ -240,11 +251,11 @@ import {
   email,
   helpers,
 } from '@vuelidate/validators';
-import { ClientInterface } from 'src/interfaces/profile.interface';
 import { useShoppingBagStore } from 'src/stores/shoppingBag';
 import { useMainStore } from 'src/stores/main';
 import { ShoppingBagInterface } from 'src/interfaces/shoppingBag.interface';
 import { Utils } from 'src/utils/utils';
+import { useI18n } from 'vue-i18n';
 const { regex } = helpers;
 
 export default defineComponent({
@@ -257,10 +268,11 @@ export default defineComponent({
   },
   setup() {
     // data
+    const { t } = useI18n();
     const utils = new Utils('order');
     const countries = ref<any>([]);
     const countriesAll = ref<any>([]);
-    const client = ref<ClientInterface>({
+    const client = ref<any>({
       name: '',
       last_name: '',
       address: '',
@@ -279,11 +291,13 @@ export default defineComponent({
         required,
         minLength: minLength(3),
         maxLength: maxLength(90),
+        regex: regex(/^[a-zA-Z\u00C0-\u024F\s]+$/),
       },
       last_name: {
         required,
         minLength: minLength(3),
         maxLength: maxLength(90),
+        regex: regex(/^[a-zA-Z\u00C0-\u024F\s]+$/),
       },
       email: {
         required,
@@ -303,11 +317,13 @@ export default defineComponent({
         required,
         minLength: minLength(3),
         maxLength: maxLength(90),
+        regex: regex(/^[a-zA-Z\u00C0-\u024F\s]+$/),
       },
       address: {
         required,
         minLength: minLength(3),
         maxLength: maxLength(90),
+        regex: regex(/^[a-zA-Z0-9#-°\s]+$/),
       },
     };
     const v$ = useVuelidate(orderRule, client);
@@ -385,37 +401,52 @@ export default defineComponent({
         console.error('No hay mensaje de WhatsApp disponible.');
         return;
       }
-      // set client data
+
+      // Set client data
+      let clientLabel = '';
       const keysObject = Object.keys(client.value);
       keysObject.map((data: any) => {
-        console.log(data);
+        if (data === 'address') {
+          client.value[data] = client.value[data].replace('#', 'N°');
+        }
+        clientLabel += `%0D%0A *${t(data)}*: ${client.value[data]} `;
       });
-      // set shoppin items data
+
+      // Set shopping items data
       let itemsString = '';
-      shoppingItems.value.forEach((data: ShoppingBagInterface) => {
-        itemsString += `*${data.name} | ${data.attribute} | x${
-          data.quantity
-        } | ${utils.formatPrice(data.total)}* %0D%0A`;
+      shoppingItems.value.forEach((data: ShoppingBagInterface, idx: number) => {
+        itemsString += `${idx === 0 ? '%0D%0A' : ''}*${data.name} | ${
+          data.attribute
+        } | x${data.quantity} | ${utils.formatPrice(data.total)}* %0D%0A`;
       });
-      // replace templates
+
+      // Replace templates
       const replacements = [
-        { pattern: /<br>/g, replacement: '%0D%0A' },
-        { pattern: /<div>/g, replacement: '' },
-        { pattern: /<\/div>/g, replacement: '' },
-        { pattern: /<b>/g, replacement: '*' },
-        { pattern: /<\/b>/g, replacement: '*' },
         { pattern: /{{\s*order\s*}}/g, replacement: itemsString },
         {
           pattern: /{{\s*total\s*}}/g,
-          replacement: utils.formatPrice(total.value),
+          replacement: `${utils.formatPrice(total.value)}`,
         },
+        { pattern: /{{\s*cliente\s*}}/g, replacement: `${clientLabel}` },
       ];
-      let messageClean = whatsappMessage;
+      let messageClean = clearHtml(whatsappMessage);
       replacements.forEach(({ pattern, replacement }) => {
         messageClean = messageClean.replace(pattern, replacement);
       });
-      // return messages
+
+      // Return messages
       return messageClean;
+    };
+
+    const clearHtml = (message: string) => {
+      let cleanMessage: any = message.replace(
+        /<(?!\/?(br|b)\s*\/?>)[^>]+>/g,
+        ''
+      ); // Elimina todas las etiquetas excepto <br> y <br/>
+      cleanMessage = cleanMessage.replace(/<br\s*[/]?>/gi, '%0D%0A'); // Convierte <br> y <br/> en %0D%0A
+      cleanMessage = cleanMessage.replace(/<b>(.*?)<\/b>/gi, '*$1*'); // Elimina <b> y </b>, conserva el texto entre ellos
+      cleanMessage = cleanMessage.replace(/\*\*(.*?)\*\*/g, '*$1*'); // Elimina asteriscos dobles que puedan quedar después de la conversión de negritas
+      return cleanMessage;
     };
 
     // hook

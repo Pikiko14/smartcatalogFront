@@ -52,7 +52,8 @@ export const useShoppingBagStore = defineStore('shoppingBagStore', () => {
       data.total = Math.round(data.price * data.quantity);
       const taxDivisor = data.tax / 100;
       const base = data.price / (taxDivisor + 1);
-      data.taxTotal = (base * taxDivisor).toFixed(2);
+      data.total_tax = parseFloat((base * taxDivisor).toFixed(2));
+      data.base = parseFloat(base.toFixed(2));
       total.value += data.total;
       return data;
     });
@@ -103,11 +104,16 @@ export const useShoppingBagStore = defineStore('shoppingBagStore', () => {
     }
   };
 
-  const doOrder = async (client: ClientInterface) => {
+  const doOrder = async (
+    client: ClientInterface,
+    catalogueId: string | undefined
+  ) => {
     try {
       const params = {
         client,
         items: items.value,
+        total: total.value,
+        catalogue_id: catalogueId,
       };
       const response = (await handlerRequest.doPostRequest(
         `${pathOrder}`,

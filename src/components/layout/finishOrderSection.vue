@@ -390,14 +390,28 @@ export default defineComponent({
       const message = prepareMessage();
       // send order to backend
       try {
+        const catalogueId = mainStore.catalog._id;
         const response = (await shoppingStore.doOrder(
-          client.value
+          client.value,
+          catalogueId
         )) as ResponseObj;
         if (response?.success) {
-          const whatsappLink = `https://wa.me/${profile.value.phone_number}/?text=${message}`;
-          window.open(whatsappLink, '_blank');
-          emit('close-modal');
+          client.value = {
+            name: '',
+            last_name: '',
+            address: '',
+            city: '',
+            document: '',
+            email: '',
+            phone: '',
+            country: 'Colombia',
+          };
           notification('positive', response.message, 'primary');
+          setTimeout(() => {
+            const whatsappLink = `https://wa.me/${profile.value.phone_number}/?text=${message}`;
+            window.open(whatsappLink, '_blank');
+          }, 1500);
+          emit('close-modal');
         }
       } catch (error) {
       } finally {

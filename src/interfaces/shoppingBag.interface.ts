@@ -10,6 +10,7 @@ export interface ShoppingBagInterface {
   name: string;
   img: string;
   total?: number;
-  taxTotal?: number | string;
+  total_tax?: number | string;
   parent?: string | undefined;
+  base?: string | number;
 }

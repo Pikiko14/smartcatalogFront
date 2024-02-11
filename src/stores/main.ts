@@ -1,13 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ref } from 'vue';
+import axios from 'axios';
 import { defineStore } from 'pinia';
 import { Request } from 'src/api/api';
-import { CatalogueInterface } from 'src/interfaces/catalog.interface';
+import { Storage } from 'src/utils/storage';
 import { ResponseObj } from 'src/interfaces/api';
+import { CatalogueInterface } from 'src/interfaces/catalog.interface';
 import { ProfileInterface } from 'src/interfaces/profile.interface';
 import { ProductInterface } from 'src/interfaces/product.interface';
 
 const path = 'catalogues';
+const storage = new Storage('');
 const handlerRequest = new Request({
   Accept: 'application/json',
 });
@@ -99,6 +102,40 @@ export const useMainStore = defineStore('mainStore', () => {
     }
   };
 
+  const getGeolocationData = async () => {
+    try {
+      const { data } = await axios.get(
+        `${process.env.GEO_URL}${process.env.GEO_API_KEY}`
+      );
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const doVisitInCatalogue = async (params: any) => {
+    const isVisit = storage.getItemStorage(
+      'local',
+      `is-visit-${params.catalogue_id}`
+    );
+    if (isVisit) {
+      return true;
+    }
+    try {
+      const response = (await handlerRequest.doPostRequest(
+        'visits',
+        params,
+        true
+      )) as ResponseObj;
+      if (response?.success) {
+        storage.saveInStorage('local', `is-visit-${params.catalogue_id}`, true);
+        return response;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   // return statement
   return {
     profile,
@@ -106,5 +143,7 @@ export const useMainStore = defineStore('mainStore', () => {
     product,
     showProduct,
     showCatalogue,
+    doVisitInCatalogue,
+    getGeolocationData,
   };
 });

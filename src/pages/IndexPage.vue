@@ -51,10 +51,24 @@ export default defineComponent({
       }
     };
 
+    const setVisitToCatalogue = async (catalogId: string) => {
+      try {
+        const geoResponse = await store.getGeolocationData();
+        if (geoResponse && geoResponse.city) {
+          const params = {
+            ...geoResponse,
+            catalogue_id: catalogId,
+          };
+          await store.doVisitInCatalogue(params);
+        }
+      } catch (error) {}
+    };
+
     // hook
     onBeforeMount(async () => {
       const { catalogId } = route.params as any;
       await showCatalogue(catalogId);
+      await setVisitToCatalogue(catalogId);
     });
 
     // return statement

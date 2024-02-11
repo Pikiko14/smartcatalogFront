@@ -256,6 +256,8 @@ import { useMainStore } from 'src/stores/main';
 import { ShoppingBagInterface } from 'src/interfaces/shoppingBag.interface';
 import { Utils } from 'src/utils/utils';
 import { useI18n } from 'vue-i18n';
+import { ResponseObj } from 'src/interfaces/api';
+import { notification } from 'src/boot/notification';
 const { regex } = helpers;
 
 export default defineComponent({
@@ -266,7 +268,7 @@ export default defineComponent({
       default: () => '#fba124',
     },
   },
-  setup() {
+  setup(props, { emit }) {
     // data
     const { t } = useI18n();
     const utils = new Utils('order');
@@ -388,8 +390,15 @@ export default defineComponent({
       const message = prepareMessage();
       // send order to backend
       try {
-        const whatsappLink = `https://wa.me/${profile.value.phone_number}/?text=${message}`;
-        window.open(whatsappLink, '_blank');
+        const response = (await shoppingStore.doOrder(
+          client.value
+        )) as ResponseObj;
+        if (response?.success) {
+          const whatsappLink = `https://wa.me/${profile.value.phone_number}/?text=${message}`;
+          window.open(whatsappLink, '_blank');
+          emit('close-modal');
+          notification('positive', response.message, 'primary');
+        }
       } catch (error) {
       } finally {
       }

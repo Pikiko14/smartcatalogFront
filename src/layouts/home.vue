@@ -53,7 +53,10 @@
           </q-btn>
         </q-card-section>
         <q-card-section style="margin-top: -25px">
-          <FinishOrder :color="color" />
+          <FinishOrder
+            :color="color"
+            @close-modal="openFinishOrderModal = false"
+          />
         </q-card-section>
       </q-card>
     </q-dialog>

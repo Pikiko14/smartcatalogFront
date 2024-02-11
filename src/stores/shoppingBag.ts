@@ -4,7 +4,9 @@ import { defineStore } from 'pinia';
 import { Request } from 'src/api/api';
 import { ShoppingBagInterface } from 'src/interfaces/shoppingBag.interface';
 import { ResponseObj } from 'src/interfaces/api';
+import { ClientInterface } from 'src/interfaces/profile.interface';
 
+const pathOrder = 'orders';
 const pathProduct = 'products';
 const handlerRequest = new Request({
   Accept: 'application/json',
@@ -101,10 +103,32 @@ export const useShoppingBagStore = defineStore('shoppingBagStore', () => {
     }
   };
 
+  const doOrder = async (client: ClientInterface) => {
+    try {
+      const params = {
+        client,
+        items: items.value,
+      };
+      const response = (await handlerRequest.doPostRequest(
+        `${pathOrder}`,
+        params,
+        true
+      )) as ResponseObj;
+      if (response.success) {
+        addedToCart.value = [];
+        items.value = [];
+        return response;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   // return statement
   return {
     total,
     items,
+    doOrder,
     pushOne,
     removeOne,
     addToCart,

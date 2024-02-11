@@ -18,8 +18,14 @@
           :class="{ 'q-py-sm': idx > 0 }"
         >
           <q-item-section avatar>
-            <q-avatar size="40pt">
-              <img :src="`${url}/${item.img}`" />
+            <q-avatar
+              style="overflow: hidden"
+              size="40pt"
+              :style="{ border: `1px solid #80808057` }"
+            >
+              <img
+                :src="item.img ? `${url}/${item.img}` : '/images/no-image.png'"
+              />
             </q-avatar>
           </q-item-section>
           <q-item-section class="cursor-pointer">
@@ -204,7 +210,7 @@ export default defineComponent({
 
     const finishOrder = () => {
       emit('finish-order');
-    }
+    };
 
     // return
     return {

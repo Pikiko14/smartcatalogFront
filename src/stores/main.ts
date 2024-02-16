@@ -135,12 +135,12 @@ export const useMainStore = defineStore('mainStore', () => {
   const doSearchProduct = async (search: string) => {
     try {
       const response = (await handlerRequest.doGetRequest(
-        `products/search/${search}?catalogue_id=${catalog.value._id}`,
+        `products/filter/front?product=${search}&catalogue_id=${catalog.value._id}`,
         '',
         true
       )) as ResponseObj;
       if (response.success) {
-        console.log(response);
+        catalog.value.pages = response.data;
       }
       return response;
     } catch (error) {

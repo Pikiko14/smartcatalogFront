@@ -67,7 +67,7 @@
 
 <script lang="ts">
 import 'swiper/css';
-import { nextTick } from 'vue';
+import { computed, nextTick, watch } from 'vue';
 import 'swiper/css/navigation';
 import 'swiper/css/effect-fade';
 import { onBeforeMount, ref } from 'vue';
@@ -99,6 +99,18 @@ export default {
     const url = process.env.API_URL;
     const render = ref<boolean>(false);
 
+    // watch
+    watch(
+      () => {
+        return props.catalogue.pages;
+      },
+      (val: any) => {
+        if (val?.length > 0) {
+          reSizeButtons({ activeIndex: 0 });
+        }
+      }
+    );
+
     // methods
     const reSizeButtons = (element: any) => {
       buttons.value = [];
@@ -121,7 +133,7 @@ export default {
 
     //lify cycle
     onBeforeMount(() => {
-    render.value = false
+      render.value = false;
       setTimeout(() => {
         nextTick(() => {
           render.value = true;

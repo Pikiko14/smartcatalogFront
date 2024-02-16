@@ -39,4 +39,6 @@ export default {
   email: 'Correo electrónico',
   last_name: 'Apellido',
   noValid: 'Valor inválido',
+  searchLabel: 'Buscar producto',
+  redDress: 'Vestido rojo',
 };

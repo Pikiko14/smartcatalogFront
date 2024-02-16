@@ -40,6 +40,9 @@
         <q-tooltip :style="{ backgroundColor: color || '#fba124' }">
           {{ $t('search') }}
         </q-tooltip>
+        <q-menu class="round-10">
+          <Filters @do-search="doSearch" />
+        </q-menu>
       </q-btn>
       <!-- finish middle btn -->
 
@@ -140,11 +143,13 @@
 </template>
 
 <script lang="ts">
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { defineComponent } from 'vue';
 import { LocalStorage } from 'quasar';
+import Filters from './filterSection.vue';
 import { useShoppingBagStore } from 'src/stores/shoppingBag';
-import { computed } from 'vue';
+import { useMainStore } from 'src/stores/main';
 
 export default defineComponent({
   name: 'HeaderLayoutComponenet',
@@ -162,9 +167,12 @@ export default defineComponent({
       default: () => '/images/logo.webp',
     },
   },
-  components: {},
+  components: {
+    Filters,
+  },
   setup(props, { emit }) {
     // data
+    const mainStore = useMainStore();
     const shoppingStore = useShoppingBagStore();
     const { locale } = useI18n({ useScope: 'global' });
     const localeOptions = [
@@ -188,9 +196,18 @@ export default defineComponent({
       emit('open-shopping-bag');
     };
 
+    const doSearch = async (search: string) => {
+      try {
+        const response = await mainStore.doSearchProduct(search);
+        if (response?.success) {
+        }
+      } catch (error) {}
+    };
+
     // return
     return {
       locale,
+      doSearch,
       localeOptions,
       totalItemsInBag,
       openShoppingBag,

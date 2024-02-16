@@ -84,19 +84,15 @@ export const useMainStore = defineStore('mainStore', () => {
 
   const showProduct = async (id: string | undefined) => {
     try {
-      try {
-        const response = (await handlerRequest.doGetRequest(
-          `products/${id}/show`,
-          '',
-          true
-        )) as ResponseObj;
-        if (response.success) {
-          product.value = response.data;
-        }
-        return response;
-      } catch (error) {
-        console.log(error);
+      const response = (await handlerRequest.doGetRequest(
+        `products/${id}/show`,
+        '',
+        true
+      )) as ResponseObj;
+      if (response.success) {
+        product.value = response.data;
       }
+      return response;
     } catch (error) {
       console.log(error);
     }
@@ -136,6 +132,22 @@ export const useMainStore = defineStore('mainStore', () => {
     }
   };
 
+  const doSearchProduct = async (search: string) => {
+    try {
+      const response = (await handlerRequest.doGetRequest(
+        `products/search/${search}?catalogue_id=${catalog.value._id}`,
+        '',
+        true
+      )) as ResponseObj;
+      if (response.success) {
+        console.log(response);
+      }
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   // return statement
   return {
     profile,
@@ -143,6 +155,7 @@ export const useMainStore = defineStore('mainStore', () => {
     product,
     showProduct,
     showCatalogue,
+    doSearchProduct,
     doVisitInCatalogue,
     getGeolocationData,
   };

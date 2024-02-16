@@ -36,4 +36,6 @@ export default {
   soppingBag: 'Shopping bag',
   last_name: 'Last name',
   noValid: 'Value invalid',
+  searchLabel: 'Search product',
+  redDress: 'Red dress',
 };

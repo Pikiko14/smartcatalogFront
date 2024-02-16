@@ -40,8 +40,12 @@
         <q-tooltip :style="{ backgroundColor: color || '#fba124' }">
           {{ $t('search') }}
         </q-tooltip>
-        <q-menu class="round-10">
-          <Filters @do-search="doSearch" />
+        <q-menu class="round-10" @before-show="loadCategories">
+          <Filters
+            @do-search="doSearch"
+            :categories="categories"
+            :color="color"
+          />
         </q-menu>
       </q-btn>
       <!-- finish middle btn -->
@@ -147,6 +151,7 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { defineComponent } from 'vue';
 import { LocalStorage } from 'quasar';
+import { useRouter } from 'vue-router';
 import Filters from './filterSection.vue';
 import { useShoppingBagStore } from 'src/stores/shoppingBag';
 import { useMainStore } from 'src/stores/main';
@@ -172,6 +177,7 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     // data
+    const router = useRouter();
     const mainStore = useMainStore();
     const shoppingStore = useShoppingBagStore();
     const { locale } = useI18n({ useScope: 'global' });
@@ -192,6 +198,11 @@ export default defineComponent({
       return totalQuantity;
     });
 
+    const categories = computed(() => {
+      return mainStore.categories;
+    });
+
+    // methods
     const openShoppingBag = () => {
       emit('open-shopping-bag');
     };
@@ -200,7 +211,22 @@ export default defineComponent({
       try {
         const response = await mainStore.doSearchProduct(search);
         if (response?.success) {
+          router.push({
+            name: 'home',
+            query: {
+              search,
+            },
+          });
         }
+      } catch (error) {}
+    };
+
+    const loadCategories = async () => {
+      if (categories.value.length > 0) {
+        return false;
+      }
+      try {
+        await mainStore.listUserCategories();
       } catch (error) {}
     };
 
@@ -208,7 +234,9 @@ export default defineComponent({
     return {
       locale,
       doSearch,
+      categories,
       localeOptions,
+      loadCategories,
       totalItemsInBag,
       openShoppingBag,
       setLocale(lang: string) {

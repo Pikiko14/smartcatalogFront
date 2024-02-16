@@ -38,4 +38,5 @@ export default {
   noValid: 'Value invalid',
   searchLabel: 'Search product',
   redDress: 'Red dress',
+  filterByCategories: 'Filter by category.',
 };

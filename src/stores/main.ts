@@ -5,9 +5,10 @@ import { defineStore } from 'pinia';
 import { Request } from 'src/api/api';
 import { Storage } from 'src/utils/storage';
 import { ResponseObj } from 'src/interfaces/api';
-import { CatalogueInterface } from 'src/interfaces/catalog.interface';
 import { ProfileInterface } from 'src/interfaces/profile.interface';
 import { ProductInterface } from 'src/interfaces/product.interface';
+import { CatalogueInterface } from 'src/interfaces/catalog.interface';
+import { CategoryInterface } from 'src/interfaces/categories.interface';
 
 const path = 'catalogues';
 const storage = new Storage('');
@@ -39,6 +40,7 @@ export const useMainStore = defineStore('mainStore', () => {
     user_id: '',
     pages: [],
   });
+  const categories = ref<CategoryInterface[]>([]);
 
   // methods
   const showCatalogue = async (id: string) => {
@@ -148,14 +150,33 @@ export const useMainStore = defineStore('mainStore', () => {
     }
   };
 
+  const listUserCategories = async () => {
+    try {
+      const response = (await handlerRequest.doGetRequest(
+        `categories/list/${catalog.value._id}`,
+        '',
+        true
+      )) as ResponseObj;
+      if (response?.success) {
+        console.log(response.data);
+        categories.value = response.data;
+      }
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   // return statement
   return {
     profile,
     catalog,
     product,
+    categories,
     showProduct,
     showCatalogue,
     doSearchProduct,
+    listUserCategories,
     doVisitInCatalogue,
     getGeolocationData,
   };

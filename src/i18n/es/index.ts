@@ -41,4 +41,5 @@ export default {
   noValid: 'Valor inválido',
   searchLabel: 'Buscar producto',
   redDress: 'Vestido rojo',
+  filterByCategories: 'Filtrar por categorías',
 };

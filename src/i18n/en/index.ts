@@ -39,4 +39,9 @@ export default {
   searchLabel: 'Search product',
   redDress: 'Red dress',
   filterByCategories: 'Filter by category.',
+  shareCatalog: 'Share catalogue',
+  shareDescription:
+    '"Explore our amazing selection of products in our catalog! From unique items to the latest trends, find everything you need to add a special touch to your life! Click the link to browse our catalog right now."',
+  hashtags:
+    'Catalog,Catalogue,Smart,Shopping,Deals,Style,Trends,HomeDecor,GiftIdeas,ShopNow',
 };

@@ -19,6 +19,7 @@
         flat
         dense
         icon="share"
+        @click="openSocialShareModal = true"
         rounded
         class="q-ml-md"
         v-if="$q.screen.gt.sm"
@@ -57,6 +58,7 @@
           flat
           dense
           icon="share"
+          @click="openSocialShareModal = true"
           rounded
           class="q-ml-md"
           v-if="$q.screen.lt.sm"
@@ -78,6 +80,14 @@
           <q-tooltip :style="{ backgroundColor: color || '#fba124' }">
             {{ $t('search') }}
           </q-tooltip>
+          <q-menu class="round-10" @before-show="loadCategories">
+            <Filters
+              :color="color"
+              @do-search="doSearch"
+              :categories="categories"
+              @do-filter-by-category="doFilterCategory"
+            />
+          </q-menu>
         </q-btn>
         <q-btn
           flat
@@ -144,18 +154,25 @@
       </div>
       <!-- end right btn -->
     </q-toolbar-title>
+
+    <!--dialog social share-->
+    <q-dialog v-model="openSocialShareModal">
+      <SocialShare />
+    </q-dialog>
+    <!--End dialog social share-->
   </q-toolbar>
 </template>
 
 <script lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { defineComponent } from 'vue';
 import { LocalStorage } from 'quasar';
-import { useRoute, useRouter } from 'vue-router';
 import Filters from './filterSection.vue';
-import { useShoppingBagStore } from 'src/stores/shoppingBag';
 import { useMainStore } from 'src/stores/main';
+import { useRoute, useRouter } from 'vue-router';
+import SocialShare from './socialShare.vue';
+import { useShoppingBagStore } from 'src/stores/shoppingBag';
 
 export default defineComponent({
   name: 'HeaderLayoutComponenet',
@@ -175,6 +192,7 @@ export default defineComponent({
   },
   components: {
     Filters,
+    SocialShare,
   },
   setup(props, { emit }) {
     // data
@@ -182,6 +200,7 @@ export default defineComponent({
     const router = useRouter();
     const mainStore = useMainStore();
     const shoppingStore = useShoppingBagStore();
+    const openSocialShareModal = ref<boolean>(false);
     const { locale } = useI18n({ useScope: 'global' });
     const localeOptions = [
       { value: 'es', label: 'Spanish', icon: '/images/spanish.png' },
@@ -272,6 +291,7 @@ export default defineComponent({
       totalItemsInBag,
       openShoppingBag,
       doFilterCategory,
+      openSocialShareModal,
       setLocale(lang: string) {
         locale.value = lang;
         LocalStorage.set('lang', lang);

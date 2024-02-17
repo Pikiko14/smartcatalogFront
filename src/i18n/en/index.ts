@@ -44,4 +44,5 @@ export default {
     '"Explore our amazing selection of products in our catalog! From unique items to the latest trends, find everything you need to add a special touch to your life! Click the link to browse our catalog right now."',
   hashtags:
     'Catalog,Catalogue,Smart,Shopping,Deals,Style,Trends,HomeDecor,GiftIdeas,ShopNow',
+  downloadCatalogue: 'Download catalogue',
 };

@@ -9,6 +9,7 @@
         rounded
         icon="cloud_download"
         v-if="$q.screen.gt.sm"
+        @click="downloadCatalogue = true"
         :style="{ color: color || '#fba124' }"
       >
         <q-tooltip :style="{ backgroundColor: color || '#fba124' }">
@@ -160,6 +161,12 @@
       <SocialShare />
     </q-dialog>
     <!--End dialog social share-->
+
+    <!--dialog social share-->
+    <q-dialog v-model="downloadCatalogue">
+      <DownloadCatalogue :color="color" />
+    </q-dialog>
+    <!--End dialog social share-->
   </q-toolbar>
 </template>
 
@@ -169,9 +176,10 @@ import { useI18n } from 'vue-i18n';
 import { defineComponent } from 'vue';
 import { LocalStorage } from 'quasar';
 import Filters from './filterSection.vue';
-import { useMainStore } from 'src/stores/main';
-import { useRoute, useRouter } from 'vue-router';
 import SocialShare from './socialShare.vue';
+import { useMainStore } from 'src/stores/main';
+import DownloadCatalogue from './download.vue';
+import { useRoute, useRouter } from 'vue-router';
 import { useShoppingBagStore } from 'src/stores/shoppingBag';
 
 export default defineComponent({
@@ -193,6 +201,7 @@ export default defineComponent({
   components: {
     Filters,
     SocialShare,
+    DownloadCatalogue,
   },
   setup(props, { emit }) {
     // data
@@ -200,6 +209,7 @@ export default defineComponent({
     const router = useRouter();
     const mainStore = useMainStore();
     const shoppingStore = useShoppingBagStore();
+    const downloadCatalogue = ref<boolean>(false);
     const openSocialShareModal = ref<boolean>(false);
     const { locale } = useI18n({ useScope: 'global' });
     const localeOptions = [
@@ -291,6 +301,7 @@ export default defineComponent({
       totalItemsInBag,
       openShoppingBag,
       doFilterCategory,
+      downloadCatalogue,
       openSocialShareModal,
       setLocale(lang: string) {
         locale.value = lang;

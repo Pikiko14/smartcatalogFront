@@ -280,6 +280,10 @@ a[class^='share-network-'] span {
   font-weight: 500;
 }
 
+.download-catalogue {
+  width: 400px;
+}
+
 // medias queries //
 @media (min-width: 1600px) {
   .slider-wrapper {
@@ -361,6 +365,10 @@ a[class^='share-network-'] span {
 
   .swiper-zoom-container {
     height: 400px;
+  }
+
+  .download-catalogue {
+    width: 100%;
   }
 }
 

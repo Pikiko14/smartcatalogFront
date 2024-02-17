@@ -47,4 +47,5 @@ export default {
     '¡Descubre nuestra increíble selección de productos en nuestro catálogo! Desde artículos únicos hasta las últimas tendencias, ¡encuentra todo lo que necesitas para darle un toque especial a tu vida! Haz clic en el enlace para explorar nuestro catálogo ahora mismo.',
   hashtags:
     'Catálogo,Catálogo,Inteligente,Compras,Ofertas,Estilo,Tendencias,DecoraciónHogar,IdeasRegalo,CompraAhora',
+  downloadCatalogue: 'Descargar catálogo',
 };

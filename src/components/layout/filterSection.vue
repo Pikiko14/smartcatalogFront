@@ -28,6 +28,7 @@
       type="checkbox"
       :options="categoriesOptions"
       :color="color"
+      @update:model-value="doFilterByCategory"
     >
       <template v-slot:label="opt">
         <div class="row items-center">
@@ -38,6 +39,7 @@
     </q-option-group>
   </q-list>
 </template>
+<!-- eslint-disable @typescript-eslint/no-explicit-any -->
 
 <script lang="ts">
 import { CategoryInterface } from 'src/interfaces/categories.interface';
@@ -56,12 +58,14 @@ export default defineComponent({
       default: () => '#fba124',
     },
   },
+  emits: ['do-filter-by-category', 'do-search'],
   setup(props, { emit }) {
     // data
     const route = useRoute();
     const search = ref<string>('');
     const url = process.env.API_URL;
-    const categoriesSelected = ref<number[]>([]);
+    const filterTimeout = ref<any>(null);
+    const categoriesSelected = ref<string[]>([]);
 
     // computed
     const categoriesOptions = computed(() => {
@@ -82,10 +86,22 @@ export default defineComponent({
       emit('do-search', search.value ? search.value : '');
     };
 
+    const doFilterByCategory = () => {
+      if (filterTimeout.value) {
+        clearTimeout(filterTimeout.value);
+      }
+      filterTimeout.value = setTimeout(() => {
+        emit('do-filter-by-category', categoriesSelected.value);
+      }, 1000);
+    };
+
     // life cycle
     onBeforeMount(() => {
       if (route.query.search) {
         search.value = route.query.search as string;
+      }
+      if (route.query.categories) {
+        categoriesSelected.value = JSON.parse(route.query.categories as string);
       }
     });
 
@@ -95,6 +111,7 @@ export default defineComponent({
       doSearchProduct,
       categoriesOptions,
       categoriesSelected,
+      doFilterByCategory,
     };
   },
 });

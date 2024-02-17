@@ -134,14 +134,15 @@ export const useMainStore = defineStore('mainStore', () => {
     }
   };
 
-  const doSearchProduct = async (search: string) => {
+  const doFilterProduct = async (search: string, categoriesString: string) => {
     try {
       const response = (await handlerRequest.doGetRequest(
-        `products/filter/front?product=${search}&catalogue_id=${catalog.value._id}`,
+        `products/filter/front?product=${search}&categories=${categoriesString}&catalogue_id=${catalog.value._id}`,
         '',
         true
       )) as ResponseObj;
       if (response.success) {
+        catalog.value.pages = [];
         catalog.value.pages = response.data;
       }
       return response;
@@ -158,7 +159,6 @@ export const useMainStore = defineStore('mainStore', () => {
         true
       )) as ResponseObj;
       if (response?.success) {
-        console.log(response.data);
         categories.value = response.data;
       }
       return response;
@@ -175,7 +175,7 @@ export const useMainStore = defineStore('mainStore', () => {
     categories,
     showProduct,
     showCatalogue,
-    doSearchProduct,
+    doFilterProduct,
     listUserCategories,
     doVisitInCatalogue,
     getGeolocationData,

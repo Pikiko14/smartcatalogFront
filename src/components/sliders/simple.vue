@@ -11,6 +11,7 @@
         }"
         :space-between="50"
         :modules="modules"
+        @swiper="onSwiper"
         @slideChange="reSizeButtons"
         :slides-per-view="1"
       >
@@ -67,7 +68,7 @@
 
 <script lang="ts">
 import 'swiper/css';
-import { computed, nextTick, watch } from 'vue';
+import { nextTick, watch } from 'vue';
 import 'swiper/css/navigation';
 import 'swiper/css/effect-fade';
 import { onBeforeMount, ref } from 'vue';
@@ -106,7 +107,10 @@ export default {
       },
       (val: any) => {
         if (val?.length > 0) {
-          reSizeButtons({ activeIndex: 0 });
+          swiperRef.value.slideTo(0);
+          setTimeout(() => {
+            reSizeButtons({ activeIndex: 0 });
+          }, 600);
         }
       }
     );
@@ -131,6 +135,10 @@ export default {
       emit('show-product', product);
     };
 
+    function onSwiper(swiper: any) {
+      swiperRef.value = swiper;
+    }
+
     //lify cycle
     onBeforeMount(() => {
       render.value = false;
@@ -139,6 +147,9 @@ export default {
           render.value = true;
         });
       }, 100);
+      setTimeout(() => {
+        reSizeButtons({ activeIndex: 0 });
+      }, 1000);
     });
 
     //return data
@@ -146,6 +157,7 @@ export default {
       url,
       render,
       buttons,
+      onSwiper,
       swiperRef,
       Navigation,
       reSizeButtons,

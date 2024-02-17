@@ -42,9 +42,10 @@
         </q-tooltip>
         <q-menu class="round-10" @before-show="loadCategories">
           <Filters
+            :color="color"
             @do-search="doSearch"
             :categories="categories"
-            :color="color"
+            @do-filter-by-category="doFilterCategory"
           />
         </q-menu>
       </q-btn>
@@ -151,7 +152,7 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { defineComponent } from 'vue';
 import { LocalStorage } from 'quasar';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import Filters from './filterSection.vue';
 import { useShoppingBagStore } from 'src/stores/shoppingBag';
 import { useMainStore } from 'src/stores/main';
@@ -177,6 +178,7 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     // data
+    const route = useRoute();
     const router = useRouter();
     const mainStore = useMainStore();
     const shoppingStore = useShoppingBagStore();
@@ -209,12 +211,19 @@ export default defineComponent({
 
     const doSearch = async (search: string) => {
       try {
-        const response = await mainStore.doSearchProduct(search);
+        const categoriesString = route.query.categories
+          ? (route.query.categories as string)
+          : '';
+        const response = await mainStore.doFilterProduct(
+          search,
+          categoriesString
+        );
         if (response?.success) {
           router.push({
             name: 'home',
             query: {
               search,
+              categories: categoriesString,
             },
           });
         }
@@ -230,6 +239,29 @@ export default defineComponent({
       } catch (error) {}
     };
 
+    const doFilterCategory = async (categoriesSelecteds: string[]) => {
+      try {
+        const search = (route.query.search as string) || '';
+        const categoriesString =
+          categoriesSelecteds.length > 0
+            ? JSON.stringify(categoriesSelecteds)
+            : '';
+        const response = await mainStore.doFilterProduct(
+          search,
+          categoriesString
+        );
+        if (response?.success) {
+          router.push({
+            name: 'home',
+            query: {
+              search,
+              categories: categoriesString,
+            },
+          });
+        }
+      } catch (error) {}
+    };
+
     // return
     return {
       locale,
@@ -239,6 +271,7 @@ export default defineComponent({
       loadCategories,
       totalItemsInBag,
       openShoppingBag,
+      doFilterCategory,
       setLocale(lang: string) {
         locale.value = lang;
         LocalStorage.set('lang', lang);

@@ -120,14 +120,16 @@ export default {
       buttons.value = [];
       if (props.catalogue && props.catalogue.pages) {
         const imageElement: any = document.getElementById('slider-simple-item');
-        props.catalogue.pages[element.activeIndex].images[0].buttons.forEach(
-          (button: any) => {
-            let btn = JSON.parse(JSON.stringify(button));
-            btn.x = (btn.x / 400) * imageElement.width;
-            btn.y = (btn.y / 590) * imageElement.height;
-            buttons.value.push(JSON.parse(JSON.stringify(btn)));
-          }
-        );
+        if (props.catalogue.pages[element.activeIndex]) {
+          props.catalogue.pages[element.activeIndex].images[0].buttons.forEach(
+            (button: any) => {
+              let btn = JSON.parse(JSON.stringify(button));
+              btn.x = (btn.x / 400) * imageElement.width;
+              btn.y = (btn.y / 590) * imageElement.height;
+              buttons.value.push(JSON.parse(JSON.stringify(btn)));
+            }
+          );
+        }
       }
     };
 

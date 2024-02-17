@@ -45,4 +45,5 @@ export default {
   hashtags:
     'Catalog,Catalogue,Smart,Shopping,Deals,Style,Trends,HomeDecor,GiftIdeas,ShopNow',
   downloadCatalogue: 'Download catalogue',
+  note: 'Note:',
 };

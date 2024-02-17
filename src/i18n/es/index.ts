@@ -48,4 +48,7 @@ export default {
   hashtags:
     'Catálogo,Catálogo,Inteligente,Compras,Ofertas,Estilo,Tendencias,DecoraciónHogar,IdeasRegalo,CompraAhora',
   downloadCatalogue: 'Descargar catálogo',
+  note: 'Nota:',
+  downloadSendEmail:
+    'The catalog will be sent to your email upon completion of the process.',
 };

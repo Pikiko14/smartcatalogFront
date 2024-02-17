@@ -20,7 +20,13 @@
     </q-card-section>
     <q-card-section style="margin-top: -20px">
       <q-form @submit="doDownloadCatalogue" class="row">
-        <div class="col-12">
+        <div class="col-12 font-12 text-justify">
+          <span class="text-bold">{{ $t('note') }} </span>
+          <span class="q-pl-sm">
+            {{ $t('downloadSendEmail') }}
+          </span>
+        </div>
+        <div class="col-12 q-mt-sm">
           <label for="">{{ $t('email') }}</label>
           <q-input
             dense

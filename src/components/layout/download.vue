@@ -11,6 +11,7 @@
         icon="close"
         color="red"
         v-close-popup
+        id="closeModalBtn"
         class="float-right"
       >
         <q-tooltip class="bg-red">
@@ -55,6 +56,7 @@
             rounded
             unelevated
             type="submit"
+            :loading="loading"
             text-color="white"
             :label="$t('download')"
             :style="{ backgroundColor: color || '#fba124' }"
@@ -69,6 +71,8 @@
 <script lang="ts">
 import useVuelidate from '@vuelidate/core';
 import { defineComponent, ref } from 'vue';
+import { useMainStore } from 'src/stores/main';
+import { notification } from 'src/boot/notification';
 import { required, email } from '@vuelidate/validators';
 
 export default defineComponent({
@@ -84,6 +88,8 @@ export default defineComponent({
     const client = ref({
       email: null,
     });
+    const store = useMainStore();
+    const loading = ref<boolean>(false);
 
     // rules
     const orderRule = {
@@ -97,14 +103,26 @@ export default defineComponent({
     // computed
 
     // methods
-    const doDownloadCatalogue = () => {
+    const doDownloadCatalogue = async () => {
       v$.value.$touch();
       if (v$.value.$invalid) {
         return;
       }
+      loading.value = true;
       try {
-        alert(123);
-      } catch (error) {}
+        const params = {
+          email: client.value?.email,
+          id: store.catalog._id,
+        };
+        const response = await store.downloadCatalogue(params);
+        if (response?.success) {
+          notification('positive', response?.message, 'primary');
+          document.getElementById('closeModalBtn')?.click();
+        }
+      } catch (error) {
+      } finally {
+        loading.value = true;
+      }
     };
 
     // life cycle
@@ -113,6 +131,7 @@ export default defineComponent({
     return {
       v$,
       client,
+      loading,
       doDownloadCatalogue,
     };
   },

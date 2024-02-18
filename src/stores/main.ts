@@ -167,6 +167,21 @@ export const useMainStore = defineStore('mainStore', () => {
     }
   };
 
+  const downloadCatalogue = async (params: any) => {
+    try {
+      const response = (await handlerRequest.doPostRequest(
+        'catalogues/download/pdf',
+        params,
+        true
+      )) as ResponseObj;
+      if (response.success) {
+        return response;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   // return statement
   return {
     profile,
@@ -176,6 +191,7 @@ export const useMainStore = defineStore('mainStore', () => {
     showProduct,
     showCatalogue,
     doFilterProduct,
+    downloadCatalogue,
     listUserCategories,
     doVisitInCatalogue,
     getGeolocationData,

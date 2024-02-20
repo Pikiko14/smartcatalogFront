@@ -15,7 +15,14 @@
     >
       <swiper-slide class="slide" v-for="(media, idx) in medias" :key="idx">
         <div class="swiper-zoom-container">
-          <img class="media-product-galery-img" :src="`${url}/${media.path}`" />
+          <img
+            class="media-product-galery-img"
+            :src="
+              !media.path.includes('s3.us-east-2')
+                ? `${url}/${media.path}`
+                : media.path
+            "
+          />
         </div>
         <q-tooltip :style="{ backgroundColor: color || '#fba124' }">
           {{ $t('doubleClickZoon') }}
@@ -38,7 +45,13 @@
         v-for="(media, idx) in medias"
         :key="idx"
       >
-        <img :src="`${url}/${media.path}`" />
+        <img
+          :src="
+            !media.path.includes('s3.us-east-2')
+              ? `${url}/${media.path}`
+              : media.path
+          "
+        />
       </swiper-slide>
     </swiper>
   </div>

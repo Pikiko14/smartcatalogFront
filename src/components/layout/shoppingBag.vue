@@ -24,7 +24,15 @@
               :style="{ border: `1px solid #80808057` }"
             >
               <img
-                :src="item.img ? `${url}/${item.img}` : '/images/no-image.png'"
+                :src="
+                  item.img
+                    ? `${
+                        !item.img.includes('s3.us-east-2')
+                          ? `${url}/${item.img}`
+                          : item.img
+                      }`
+                    : '/images/no-image.png'
+                "
               />
             </q-avatar>
           </q-item-section>

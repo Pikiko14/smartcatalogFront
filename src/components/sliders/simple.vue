@@ -24,7 +24,11 @@
             <img
               id="slider-simple-item"
               class="slider-simple-item"
-              :src="`${url}/${page.images[0].path}`"
+              :src="
+                !page.images[0].path.includes('s3.us-east-2')
+                  ? `${url}/${page.images[0].path}`
+                  : page.images[0].path
+              "
             />
             <q-btn
               v-for="(btn, idx) in buttons"

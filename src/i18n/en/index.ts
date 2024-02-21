@@ -46,4 +46,7 @@ export default {
     'Catalog,Catalogue,Smart,Shopping,Deals,Style,Trends,HomeDecor,GiftIdeas,ShopNow',
   downloadCatalogue: 'Download catalogue',
   note: 'Note:',
+  downloadSendEmail:
+    'The catalog will be sent to your email upon completion of the process.',
+  noProduct: 'This button doesn´t have any product configured',
 };

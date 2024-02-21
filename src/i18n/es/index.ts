@@ -50,5 +50,6 @@ export default {
   downloadCatalogue: 'Descargar catálogo',
   note: 'Nota:',
   downloadSendEmail:
-    'The catalog will be sent to your email upon completion of the process.',
+    'El catálogo sera enviado a tu correo cuando se termine de generar.',
+  noProduct: 'Este boton no posee ningun producto configurado.',
 };

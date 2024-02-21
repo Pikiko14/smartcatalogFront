@@ -80,6 +80,8 @@ import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Navigation, EffectFade } from 'swiper/modules';
 import { ProductInterface } from 'src/interfaces/product.interface';
 import { CatalogueInterface } from 'src/interfaces/catalog.interface';
+import { notification } from 'src/boot/notification';
+import { useI18n } from 'vue-i18n';
 
 export default {
   name: 'SimpleSlider',
@@ -99,6 +101,8 @@ export default {
   },
   setup(props, { emit }) {
     // data
+
+    const { t } = useI18n();
     const swiperRef = ref<any>();
     const buttons = ref<any>([]);
     const url = process.env.API_URL;
@@ -138,6 +142,10 @@ export default {
     };
 
     const doAddProductToCard = (product: ProductInterface) => {
+      if (!product) {
+        notification('negative', t('noProduct'), 'red');
+        return false;
+      }
       emit('show-product', product);
     };
 

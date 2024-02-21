@@ -75,7 +75,13 @@ export default defineComponent({
           label: data.name,
           value: data._id,
           icon: `img:${
-            data.image ? `${url}${data.image}` : '/images/no-image.png'
+            data.image
+              ? `${
+                  !data.image.includes('s3.us-east-2')
+                    ? `${url}${data.image}`
+                    : data.image
+                }`
+              : '/images/no-image.png'
           }`,
         };
       });

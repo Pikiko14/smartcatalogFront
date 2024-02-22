@@ -7,7 +7,11 @@
         :title="title"
         :brandIcon="
           profile.profile_pictury
-            ? `${url}/profile/${profile.profile_pictury}`
+            ? profile &&
+              profile.profile_pictury &&
+              !profile.profile_pictury.includes('s3.us-east-2')
+              ? `${url}/profile/${profile.profile_pictury}`
+              : profile.profile_pictury
             : '/images/logo.webp'
         "
         @open-shopping-bag="openShoppingBag"

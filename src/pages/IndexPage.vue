@@ -2,6 +2,8 @@
   <q-page class="row items-center justify-evenly">
     <HomePageComponent :catalogue="catalogue" :profile="profile" />
     <Loader v-if="!loadedCatalog" />
+    <NotFound v-if="notFoundShow" />
+    <noSubscription v-if="noSubscription" />
   </q-page>
 </template>
 
@@ -12,20 +14,26 @@ import { useRoute, useRouter } from 'vue-router';
 import { useMainStore } from 'src/stores/main';
 import Loader from 'src/components/layout/loader.vue';
 import HomePageComponent from 'src/components/home.vue';
+import NotFound from 'src/components/layout/notFound.vue';
 import { computed, defineComponent, onBeforeMount, ref } from 'vue';
+import noSubscription from 'src/components/layout/noSubscription.vue';
 
 export default defineComponent({
   name: 'MainPage',
   components: {
-    HomePageComponent,
     Loader,
+    NotFound,
+    noSubscription,
+    HomePageComponent,
   },
   setup() {
     // data
     const route = useRoute();
     const router = useRouter();
     const store = useMainStore();
+    const notFoundShow = ref(false);
     const loadedCatalog = ref(false);
+    const noSubscription = ref(false);
 
     // computed
     const catalogue = computed(() => {
@@ -39,16 +47,34 @@ export default defineComponent({
     // methods
     const showCatalogue = async (id: string) => {
       try {
-        const response = await store.showCatalogue(id);
+        const response: any = await store.showCatalogue(id);
         if (response?.success) {
+          await setVisitToCatalogue(id);
           const realTitle = document.title;
           document.title = `${realTitle} | ${response?.data.catalogue.name}`;
+          return true;
+        }
+        if (
+          response.code === 'ERR_BAD_REQUEST' &&
+          response.response.data.error
+        ) {
+          // validate if no exists catalogs
+          if (response?.response.status === 422) {
+            notFoundShow.value = true;
+            return true;
+          }
+          // validations active error
+          const { data } = response.response.data;
+          if (data['no_subscription']) {
+            noSubscription.value = true;
+            return true;
+          }
         }
       } catch (error) {
       } finally {
         setTimeout(() => {
           loadedCatalog.value = true;
-        }, 800);
+        }, 700);
       }
     };
 
@@ -129,7 +155,6 @@ export default defineComponent({
     onBeforeMount(async () => {
       const { catalogId } = route.params as any;
       await showCatalogue(catalogId);
-      await setVisitToCatalogue(catalogId);
       if (route.query.search && !route.query.categories) {
         await doSearch(route.query.search as string);
       }
@@ -145,7 +170,9 @@ export default defineComponent({
     return {
       profile,
       catalogue,
+      notFoundShow,
       loadedCatalog,
+      noSubscription,
     };
   },
 });

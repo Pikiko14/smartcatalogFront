@@ -52,4 +52,11 @@ export default {
   downloadSendEmail:
     'El catálogo sera enviado a tu correo cuando se termine de generar.',
   noProduct: 'Este boton no posee ningun producto configurado.',
+  notFoundCatalog: 'No se encuentra el catálogo seleccionado.',
+  notFoundCatalogText:
+    'Lo sentimos, pero el catálogo que estás buscando no existe, ha sido eliminada, cambiado de nombre o está temporalmente no disponible.',
+  subscription: 'Suscripción',
+  noSubscriptionFound: 'Oops! no se encuentra una suscripción activa.',
+  notFoundSubscriptionText:
+    'Lo sentimos, pero el catálogo que estás buscando no tiene una suscripción activa, ha sido eliminado, su nombre ha sido cambiado o está temporalmente no disponible.',
 };

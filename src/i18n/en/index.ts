@@ -49,4 +49,11 @@ export default {
   downloadSendEmail:
     'The catalog will be sent to your email upon completion of the process.',
   noProduct: 'This button doesn´t have any product configured',
+  notFoundCatalog: 'Oops! Catalogue Not Be Found',
+  notFoundCatalogText:
+    'Sorry but the catalogue you are looking for does not exist, have been removed. name changed or is temporarily unavailable',
+  subscription: 'Subscription',
+  noSubscriptionFound: 'Oops! Subscription Not Be Found',
+  notFoundSubscriptionText:
+    'Sorry, but the catalogue you are looking for does not have an active subscription, has been removed, its name has been changed, or is temporarily unavailable',
 };

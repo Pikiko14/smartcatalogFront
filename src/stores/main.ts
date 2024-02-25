@@ -59,7 +59,7 @@ export const useMainStore = defineStore('mainStore', () => {
           if (profile.value.profile_pictury) {
             const newFaviconLink = document.createElement('link');
             newFaviconLink.rel = 'icon';
-            newFaviconLink.href = `${url}/profile/${profile.value.profile_pictury}`;
+            newFaviconLink.href = `${profile.value.profile_pictury}`;
             newFaviconLink.type = 'image/png';
             // Obtener el elemento head
             const headElement = document.head;

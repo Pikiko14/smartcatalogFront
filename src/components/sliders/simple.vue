@@ -3,7 +3,6 @@
     <div class="slider-wrapper relative">
       <swiper
         ref="swiperRef"
-        :effect="'fade'"
         :navigation="{
           enabled: true,
           nextEl: '.q-btn.swiper-button-next',

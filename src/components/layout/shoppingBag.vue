@@ -2,6 +2,21 @@
   <section class="shopping-bag full-width">
     <!--header shopping bag-->
     <div class="shopping-bag-header">
+      <!--close btn-->
+      <q-btn
+        @click="closeShippingBag"
+        class="absolute-top-left"
+        icon="close"
+        color="red"
+        style="top: 20px; left: 5px"
+        dense
+        rounded
+        flat
+      >
+        <q-tooltip class="bg-red">
+          {{ $t('close') }}
+        </q-tooltip>
+      </q-btn>
       <span class="text-h5" :style="{ color: color || '#fba124' }">
         {{ $t('shoppingBag') }}
       </span>
@@ -144,22 +159,6 @@
       ></q-btn>
     </div>
     <!--end footer shopping bag-->
-
-    <!--close btn-->
-    <q-btn
-      @click="closeShippingBag"
-      class="absolute-top"
-      icon="close"
-      color="red"
-      style="top: 20px; left: 5px"
-      dense
-      rounded
-      flat
-    >
-      <q-tooltip class="bg-red">
-        {{ $t('close') }}
-      </q-tooltip>
-    </q-btn>
   </section>
 </template>
 

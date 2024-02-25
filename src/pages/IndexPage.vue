@@ -1,6 +1,10 @@
 <template>
   <q-page class="row items-center justify-evenly">
-    <HomePageComponent :catalogue="catalogue" :profile="profile" />
+    <HomePageComponent
+      v-if="loadedCatalog"
+      :catalogue="catalogue"
+      :profile="profile"
+    />
     <Loader v-if="!loadedCatalog" />
     <NotFound v-if="notFoundShow" />
     <noSubscription v-if="noSubscription" />
@@ -72,9 +76,7 @@ export default defineComponent({
         }
       } catch (error) {
       } finally {
-        setTimeout(() => {
-          loadedCatalog.value = true;
-        }, 700);
+        loadedCatalog.value = true;
       }
     };
 

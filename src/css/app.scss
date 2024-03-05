@@ -290,9 +290,9 @@ a[class^='share-network-'] span {
 
 .page {
   padding: 0px;
-  background-color: hsl(35, 55, 98);
-  color: hsl(35, 35, 35);
-  border: solid 0px hsl(35, 20, 70);
+  background-color: transparent;
+  color: transparent;
+  border: solid 0px transparent;
   overflow: hidden;
 }
 
@@ -327,14 +327,14 @@ a[class^='share-network-'] span {
   margin-top: 10px;
   padding-top: 10px;
   box-sizing: border-box;
-  border-top: solid 0px hsl(35, 55, 90);
+  border-top: solid 0px transparent;
 }
 
 .page-footer {
   height: 30px;
-  border-top: solid 1px hsl(35, 55, 90);
+  border-top: solid 1px transparent;
   font-size: 80%;
-  color: hsl(35, 20, 50);
+  color: transparent;
 }
 
 .page.--left {
@@ -352,14 +352,8 @@ a[class^='share-network-'] span {
 }
 
 .page.hard {
-  background-color: hsl(35, 50, 90);
-  border: solid 0px hsl(35, 20, 50);
-}
-
-.page.page-cover {
-  background-color: hsl(35, 45, 80);
-  color: hsl(35, 35, 35);
-  border: solid 0px hsl(35, 20, 50);
+  background-color: transparent;
+  border: solid 0px transparent;
 }
 
 .page.page-cover h2 {
@@ -384,10 +378,6 @@ a[class^='share-network-'] span {
 
 .link:hover {
   transform: scale(1.2) !important;
-}
-
-.flip-button-prev {
-  
 }
 
 // medias queries //

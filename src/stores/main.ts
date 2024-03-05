@@ -16,8 +16,6 @@ const handlerRequest = new Request({
   Accept: 'application/json',
 });
 
-const url = process.env.API_URL;
-
 export const useMainStore = defineStore('mainStore', () => {
   // data
   const product = ref<ProductInterface>({

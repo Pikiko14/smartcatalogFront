@@ -1,13 +1,22 @@
 <template>
   <section class="full-width q-px-lg">
-    <!--Slider section-->
+    <!--Slider section simple-->
     <SimpleSlider
       :color="color"
       :catalogue="catalogue"
       @show-product="doShowProduct"
       v-if="profile.type_slider === 'Simple'"
     />
-    <!--End slider section-->
+    <!--End slider sectionsimple-->
+
+    <!--Slider section double-->
+    <DoubleSlider
+      :color="color"
+      :catalogue="catalogue"
+      @show-product="doShowProduct"
+      v-if="profile.type_slider === 'Double'"
+    />
+   <!--End slider section double-->
 
     <!--product modal-->
     <q-dialog v-model="openProductModal" @before-hide="clearProduct">
@@ -25,6 +34,7 @@
 <script lang="ts">
 import { computed, ref } from 'vue';
 import SimpleSlider from './sliders/simple.vue';
+import DoubleSlider from './sliders/double.vue';
 import ProductCard from './product/productCard.vue';
 import { ProductInterface } from 'src/interfaces/product.interface';
 import { ProfileInterface } from 'src/interfaces/profile.interface';
@@ -35,6 +45,7 @@ export default {
   components: {
     ProductCard,
     SimpleSlider,
+    DoubleSlider,
   },
   props: {
     catalogue: {

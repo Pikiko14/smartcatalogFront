@@ -66,6 +66,7 @@
         }"
         color=""
         flat
+        id="swiper-button-next"
         class="swiper-button-next"
       ></q-btn>
       <q-btn
@@ -199,18 +200,36 @@ import { useI18n } from 'vue-i18n';
             maxShadowOpacity: 0.1,
             showCover: false,
             disableFlipByClick: true,
-            flippingTime: 1000,
+            flippingTime: 500,
             swipeTimeout: 1,
             touchPoint: 0.1,
             showPageCorners: false
           }
-          const pageFlip = new PageFlip(
+          const pageFlip: any = new PageFlip(
             document.getElementById('demoBookExample') as any,
             config
           )
           // load pages
           pageFlip.loadFromHTML(document.querySelectorAll('.page'))
           // observer event
+
+          // event for arrows
+          const next = document.getElementById('swiper-button-next')
+          if (next) {
+            next.addEventListener('click', () => {
+              pageFlip.setting.disableFlipByClick = false
+              pageFlip.flipPrev()
+              pageFlip.setting.disableFlipByClick = true
+            })
+          }
+          const back = document.getElementById('swiper-button-back')
+          if (back) {
+            back.addEventListener('click', () => {
+              pageFlip.setting.disableFlipByClick = false
+              pageFlip.flipNext()
+              pageFlip.setting.disableFlipByClick = true
+            })
+          }
         })
       })
   

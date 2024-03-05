@@ -292,7 +292,7 @@ a[class^='share-network-'] span {
   padding: 0px;
   background-color: hsl(35, 55, 98);
   color: hsl(35, 35, 35);
-  border: solid 2px hsl(35, 20, 70);
+  border: solid 0px hsl(35, 20, 70);
   overflow: hidden;
 }
 
@@ -327,7 +327,7 @@ a[class^='share-network-'] span {
   margin-top: 10px;
   padding-top: 10px;
   box-sizing: border-box;
-  border-top: solid 1px hsl(35, 55, 90);
+  border-top: solid 0px hsl(35, 55, 90);
 }
 
 .page-footer {
@@ -353,13 +353,13 @@ a[class^='share-network-'] span {
 
 .page.hard {
   background-color: hsl(35, 50, 90);
-  border: solid 1px hsl(35, 20, 50);
+  border: solid 0px hsl(35, 20, 50);
 }
 
 .page.page-cover {
   background-color: hsl(35, 45, 80);
   color: hsl(35, 35, 35);
-  border: solid 1px hsl(35, 20, 50);
+  border: solid 0px hsl(35, 20, 50);
 }
 
 .page.page-cover h2 {
@@ -369,11 +369,11 @@ a[class^='share-network-'] span {
 }
 
 .page.page-cover.page-cover-top {
-  box-shadow: inset 0px 0 30px 0px rgba(36, 10, 3, 0.5), -2px 0 5px 2px rgba(0, 0, 0, 0.4);
+  box-shadow: inset 0px 0 0px 0px rgba(36, 10, 3, 0.5), -1px 0 0px 0px rgba(0, 0, 0, 0.4);
 }
 
 .page.page-cover.page-cover-bottom {
-  box-shadow: inset 0px 0 30px 0px rgba(36, 10, 3, 0.5), 10px 0 8px 0px rgba(0, 0, 0, 0.4);
+  box-shadow: inset 0px 0 0px 0px rgba(36, 10, 3, 0.5), 0px 0 0px 0px rgba(0, 0, 0, 0.4);
 }
 
 .link {
@@ -386,6 +386,9 @@ a[class^='share-network-'] span {
   transform: scale(1.2) !important;
 }
 
+.flip-button-prev {
+  
+}
 
 // medias queries //
 @media (min-width: 1600px) {
@@ -486,5 +489,15 @@ a[class^='share-network-'] span {
 
   .finish-order {
     width: 100%;
+  }
+
+  .swiper-button-next {
+    position: absolute;
+    right: 0px !important;
+  }
+
+  .swiper-button-prev {
+    position: absolute;
+    left: 0px !important;
   }
 }

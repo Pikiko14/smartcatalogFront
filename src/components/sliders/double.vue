@@ -74,6 +74,7 @@
           color: color || '#fba124',
         }"
         flat
+        id="swiper-button-prev"
         class="swiper-button-prev"
       ></q-btn>
       <!--end arrow section-->
@@ -201,8 +202,8 @@ import { useI18n } from 'vue-i18n';
             showCover: false,
             disableFlipByClick: true,
             flippingTime: 500,
-            swipeTimeout: 1,
-            touchPoint: 0.1,
+            swipeTimeout: 1200,
+            touchPoint: 5,
             showPageCorners: false
           }
           const pageFlip: any = new PageFlip(
@@ -218,15 +219,15 @@ import { useI18n } from 'vue-i18n';
           if (next) {
             next.addEventListener('click', () => {
               pageFlip.setting.disableFlipByClick = false
-              pageFlip.flipPrev()
+              pageFlip.flipNext()
               pageFlip.setting.disableFlipByClick = true
             })
           }
-          const back = document.getElementById('swiper-button-back')
+          const back = document.getElementById('swiper-button-prev')
           if (back) {
             back.addEventListener('click', () => {
               pageFlip.setting.disableFlipByClick = false
-              pageFlip.flipNext()
+              pageFlip.flipPrev()
               pageFlip.setting.disableFlipByClick = true
             })
           }

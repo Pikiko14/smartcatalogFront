@@ -14,7 +14,7 @@
       :color="color"
       :catalogue="catalogue"
       @show-product="doShowProduct"
-      v-if="profile.type_slider === 'Double'"
+      v-if="profile.type_slider === 'Double' && render"
     />
    <!--End slider section double-->
 
@@ -32,10 +32,10 @@
 <!-- eslint-disable @typescript-eslint/no-explicit-any -->
 
 <script lang="ts">
-import { computed, ref } from 'vue';
 import SimpleSlider from './sliders/simple.vue';
 import DoubleSlider from './sliders/double.vue';
 import ProductCard from './product/productCard.vue';
+import { computed, ref, watch, nextTick } from 'vue';
 import { ProductInterface } from 'src/interfaces/product.interface';
 import { ProfileInterface } from 'src/interfaces/profile.interface';
 import { CatalogueInterface } from 'src/interfaces/catalog.interface';
@@ -71,7 +71,18 @@ export default {
       reference: '',
       tax: 19,
     });
+    const render = ref<boolean>(true);
     const openProductModal = ref<boolean>(false);
+
+    // watch
+    watch(() => {
+      return props.catalogue.pages;
+    }, () => {
+      render.value = false;
+      nextTick(() => {
+        render.value = true;
+      })
+    })
 
     // computed
     const color = computed(() => {
@@ -102,6 +113,7 @@ export default {
     // return data
     return {
       color,
+      render,
       product,
       clearProduct,
       doShowProduct,

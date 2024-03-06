@@ -1,5 +1,8 @@
 <template>
-  <section class="full-width q-px-lg">
+  <section
+    class="full-width"
+    :class="{ 'q-px-lg': $q.screen.gt.sm, 'q-px-sm': $q.screen.lt.md }"
+  >
     <!--Slider section simple-->
     <SimpleSlider
       :color="color"
@@ -16,7 +19,15 @@
       @show-product="doShowProduct"
       v-if="profile.type_slider === 'Double' && render"
     />
-   <!--End slider section double-->
+    <!--End slider section double-->
+
+    <!--Landing catalogue-->
+    <LandingComponent
+      v-if="profile.type_slider === 'Landing'"
+      :catalogue="catalogue"
+      @show-product="doShowProduct"
+    />
+    <!--end landing catalogue-->
 
     <!--product modal-->
     <q-dialog v-model="openProductModal" @before-hide="clearProduct">
@@ -36,6 +47,7 @@ import SimpleSlider from './sliders/simple.vue';
 import DoubleSlider from './sliders/double.vue';
 import ProductCard from './product/productCard.vue';
 import { computed, ref, watch, nextTick } from 'vue';
+import LandingComponent from './sliders/landing.vue';
 import { ProductInterface } from 'src/interfaces/product.interface';
 import { ProfileInterface } from 'src/interfaces/profile.interface';
 import { CatalogueInterface } from 'src/interfaces/catalog.interface';
@@ -46,6 +58,7 @@ export default {
     ProductCard,
     SimpleSlider,
     DoubleSlider,
+    LandingComponent,
   },
   props: {
     catalogue: {
@@ -75,14 +88,17 @@ export default {
     const openProductModal = ref<boolean>(false);
 
     // watch
-    watch(() => {
-      return props.catalogue.pages;
-    }, () => {
-      render.value = false;
-      nextTick(() => {
-        render.value = true;
-      })
-    })
+    watch(
+      () => {
+        return props.catalogue.pages;
+      },
+      () => {
+        render.value = false;
+        nextTick(() => {
+          render.value = true;
+        });
+      }
+    );
 
     // computed
     const color = computed(() => {

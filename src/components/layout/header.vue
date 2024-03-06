@@ -36,7 +36,7 @@
         icon="search"
         rounded
         class="q-ml-md"
-        v-if="$q.screen.gt.sm"
+        v-if="$q.screen.gt.sm && profile.type_slider !== 'Landing'"
         :style="{ color: color || '#fba124' }"
       >
         <q-tooltip :style="{ backgroundColor: color || '#fba124' }">
@@ -233,6 +233,10 @@ export default defineComponent({
       return mainStore.categories;
     });
 
+    const profile = computed(() => {
+      return mainStore.profile;
+    });
+
     // methods
     const openShoppingBag = () => {
       emit('open-shopping-bag');
@@ -296,6 +300,7 @@ export default defineComponent({
     // return
     return {
       locale,
+      profile,
       doSearch,
       categories,
       localeOptions,

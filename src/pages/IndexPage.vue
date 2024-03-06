@@ -67,7 +67,10 @@ export default defineComponent({
             notFoundShow.value = true;
             return true;
           }
-          if (response?.response.status === 403 && response?.response.data.data.error === 'not_active') {
+          if (
+            response?.response.status === 403 &&
+            response?.response.data.data.error === 'not_active'
+          ) {
             notFoundShow.value = true;
             return true;
           }

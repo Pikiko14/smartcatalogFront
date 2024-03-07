@@ -1,5 +1,8 @@
 <template>
-  <q-page class="row items-center justify-evenly">
+  <q-page class="row">
+    <q-banner class="bg-primary text-white full-width">
+      <img width="100%" height="250px" :src="profile.landing_banner" alt="" />
+    </q-banner>
     <HomePageComponent
       v-if="loadedCatalog"
       :catalogue="catalogue"

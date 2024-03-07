@@ -10,6 +10,7 @@ export interface ProfileInterface {
   user_id?: string;
   brand_color?: string;
   whatsapp_message?: string;
+  landing_banner?: string;
 }
 
 // Define el enum

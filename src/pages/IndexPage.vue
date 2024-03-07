@@ -1,7 +1,16 @@
 <template>
   <q-page class="row">
-    <q-banner class="bg-primary text-white full-width">
-      <img width="100%" height="250px" :src="profile.landing_banner" alt="" />
+    <q-banner
+      class="text-white full-width q-pa-none"
+      :style="{ background: profile.brand_color }"
+      style="height: 300px"
+    >
+      <img
+        width="100%"
+        height="300px"
+        :src="profile.landing_banner"
+        alt="Banner image logo"
+      />
     </q-banner>
     <HomePageComponent
       v-if="loadedCatalog"

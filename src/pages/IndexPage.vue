@@ -1,9 +1,15 @@
 <template>
-  <q-page class="row">
+  <q-page
+    class="row"
+    :class="{
+      'items-center justify-evenly': profile.type_slider !== 'Landing',
+    }"
+  >
     <q-banner
       class="text-white full-width q-pa-none"
       :style="{ background: profile.brand_color }"
       style="height: 300px"
+      v-if="profile.type_slider === 'Landing'"
     >
       <img
         width="100%"

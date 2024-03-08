@@ -25,7 +25,7 @@
               class="slider-simple-item"
               :src="
                 !page.images[0].path.includes('s3.us-east-2')
-                  ? `${url}/${page.images[0].path}`
+                  ? `${page.images[0].path}`
                   : page.images[0].path
               "
             />
@@ -81,6 +81,7 @@ import { ProductInterface } from 'src/interfaces/product.interface';
 import { CatalogueInterface } from 'src/interfaces/catalog.interface';
 import { notification } from 'src/boot/notification';
 import { useI18n } from 'vue-i18n';
+import { useMainStore } from 'src/stores/main';
 
 export default {
   name: 'SimpleSlider',
@@ -100,11 +101,10 @@ export default {
   },
   setup(props, { emit }) {
     // data
-
     const { t } = useI18n();
     const swiperRef = ref<any>();
     const buttons = ref<any>([]);
-    const url = process.env.API_URL;
+    const mainStore = useMainStore();
     const render = ref<boolean>(false);
 
     // watch
@@ -140,12 +140,17 @@ export default {
       }
     };
 
-    const doAddProductToCard = (product: ProductInterface) => {
+    const doAddProductToCard = async (product: ProductInterface) => {
       if (!product) {
         notification('negative', t('noProduct'), 'red');
         return false;
       }
-      emit('show-product', product);
+      try {
+        const response = (await mainStore.filterProduct(
+          product._id as string
+        )) as any;
+        emit('show-product', response.data);
+      } catch (error) {}
     };
 
     function onSwiper(swiper: any) {
@@ -167,7 +172,6 @@ export default {
 
     //return data
     return {
-      url,
       render,
       buttons,
       onSwiper,

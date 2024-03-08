@@ -15,7 +15,7 @@
 <!-- eslint-disable @typescript-eslint/no-explicit-any -->
 
 <script lang="ts">
-import { computed, onBeforeMount } from 'vue';
+import { computed } from 'vue';
 import MediasGalery from './partials/medias.vue';
 import { useMainStore } from 'src/stores/main';
 import InformationProduct from './partials/information.vue';
@@ -49,16 +49,8 @@ export default {
     });
 
     // methods
-    const loadProductData = async () => {
-      try {
-        await store.showProduct(props.product._id);
-      } catch (error) {}
-    };
 
     // life cycle
-    onBeforeMount(async () => {
-      await loadProductData();
-    });
 
     // return data
     return {

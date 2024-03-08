@@ -173,6 +173,22 @@ export const useMainStore = defineStore('mainStore', () => {
     }
   };
 
+  const filterProduct = async (productId: string) => {
+    try {
+      const response = (await handlerRequest.doGetRequest(
+        `products/${productId}/show`,
+        '',
+        false
+      )) as ResponseObj;
+      if (response.success) {
+        product.value = response.data;
+        return response;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   // return statement
   return {
     profile,
@@ -181,6 +197,7 @@ export const useMainStore = defineStore('mainStore', () => {
     categories,
     showProduct,
     showCatalogue,
+    filterProduct,
     doFilterProduct,
     downloadCatalogue,
     listUserCategories,

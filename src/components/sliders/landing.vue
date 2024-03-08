@@ -234,12 +234,17 @@ export default defineComponent({
       } catch (error) {}
     };
 
-    const doAddProductToCard = (product: ProductInterface) => {
+    const doAddProductToCard = async (product: ProductInterface) => {
       if (!product) {
         notification('negative', t('noProduct'), 'red');
         return false;
       }
-      emit('show-product', product);
+      try {
+        const response = (await mainStore.filterProduct(
+          product._id as string
+        )) as any;
+        emit('show-product', response.data);
+      } catch (error) {}
     };
 
     // life cycle

@@ -6,8 +6,7 @@
     }"
   >
     <q-banner
-      class="text-white full-width q-pa-none"
-      :style="{ background: profile.brand_color }"
+      class="text-white full-width q-pa-none relative"
       style="height: 300px"
       v-if="profile.type_slider === 'Landing'"
     >
@@ -17,6 +16,11 @@
         :src="profile.landing_banner"
         alt="Banner image logo"
       />
+      <div
+        class="banner-overflow"
+        :style="{ background: profile.brand_color }"
+        style="opacity: 0.6"
+      ></div>
     </q-banner>
     <HomePageComponent
       v-if="loadedCatalog"
@@ -26,6 +30,12 @@
     <Loader v-if="!loadedCatalog" />
     <NotFound v-if="notFoundShow" />
     <noSubscription v-if="noSubscription" />
+    <FooterComponent
+      v-if="
+        profile.type_slider === 'Landing' && !notFoundShow && !noSubscription
+      "
+      :profile="profile"
+    />
   </q-page>
 </template>
 
@@ -37,6 +47,7 @@ import { useMainStore } from 'src/stores/main';
 import Loader from 'src/components/layout/loader.vue';
 import HomePageComponent from 'src/components/home.vue';
 import NotFound from 'src/components/layout/notFound.vue';
+import FooterComponent from 'src/components/layout/footer.vue';
 import { computed, defineComponent, onBeforeMount, ref } from 'vue';
 import noSubscription from 'src/components/layout/noSubscription.vue';
 
@@ -46,6 +57,7 @@ export default defineComponent({
     Loader,
     NotFound,
     noSubscription,
+    FooterComponent,
     HomePageComponent,
   },
   setup() {

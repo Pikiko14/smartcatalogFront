@@ -404,6 +404,18 @@ a[class^='share-network-'] span {
   justify-content: center;
 }
 
+.banner-overflow {
+  position: absolute;
+  width: 99.9%;
+  height: 100%;
+  top: 0px;
+  background: #0000005e;
+}
+
+.relative {
+  position: relative;
+}
+
 // medias queries //
 @media (min-width: 1600px) {
   .slider-wrapper {

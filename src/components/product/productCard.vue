@@ -39,7 +39,7 @@ export default {
       default: () => '',
     },
   },
-  setup(props) {
+  setup() {
     // data
     const store = useMainStore();
 

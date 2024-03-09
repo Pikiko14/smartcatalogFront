@@ -11,7 +11,7 @@
     >
       <img
         width="100%"
-        height="300px"
+        class="banner-landing"
         :src="profile.landing_banner"
         alt="Banner image logo"
       />

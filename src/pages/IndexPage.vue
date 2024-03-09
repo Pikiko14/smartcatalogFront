@@ -6,8 +6,7 @@
     }"
   >
     <q-banner
-      class="text-white full-width q-pa-none relative"
-      style="height: 300px"
+      class="text-white full-width q-pa-none relative banner-landing"
       v-if="profile.type_slider === 'Landing'"
     >
       <img

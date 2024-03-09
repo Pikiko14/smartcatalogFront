@@ -416,6 +416,10 @@ a[class^='share-network-'] span {
   position: relative;
 }
 
+.banner-landing {
+  height: 300px;
+}
+
 // medias queries //
 @media (min-width: 1600px) {
   .slider-wrapper {
@@ -438,6 +442,10 @@ a[class^='share-network-'] span {
 @media (max-width: 1000px) {
   .slider-wrapper {
     max-width: 50% !important;
+  }
+
+  .banner-landing {
+    height: 200px;
   }
 
   .product-card {

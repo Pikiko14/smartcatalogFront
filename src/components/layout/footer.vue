@@ -125,4 +125,15 @@ export default defineComponent({
   font-weight: 300;
   font-weight: 500;
 }
+
+@media (min-width: 1000px) {
+  .footer p {
+    color: #fff;
+    margin: 0px 0 10px 0;
+    font-size: 1rem;
+    font-weight: 300;
+    font-weight: 500;
+    text-align: center !important;
+  }
+}
 </style>

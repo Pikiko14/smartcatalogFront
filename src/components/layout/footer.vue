@@ -16,11 +16,6 @@
       </li>
       <li class="social-icon__item">
         <a class="social-icon__link" href="#">
-          <i class="fab fa-linkedin"></i>
-        </a>
-      </li>
-      <li class="social-icon__item">
-        <a class="social-icon__link" href="#">
           <i class="fab fa-instagram"></i>
         </a>
       </li>

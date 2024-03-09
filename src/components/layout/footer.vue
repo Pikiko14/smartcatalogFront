@@ -4,19 +4,13 @@
     :style="{ background: `${profile.brand_color || '#fba124'} !important` }"
   >
     <ul class="social-icon">
-      <li class="social-icon__item">
-        <a class="social-icon__link" href="#">
-          <i class="fab fa-facebook"></i>
-        </a>
-      </li>
-      <li class="social-icon__item">
-        <a class="social-icon__link" href="#">
-          <i class="fab fa-twitter"></i>
-        </a>
-      </li>
-      <li class="social-icon__item">
-        <a class="social-icon__link" href="#">
-          <i class="fab fa-instagram"></i>
+      <li
+        class="social-icon__item"
+        v-for="(rRsS, idx) in profile.rrss_link"
+        :key="idx"
+      >
+        <a class="social-icon__link" :href="`${rRsS.url}`" target="__blank">
+          <i :class="rRsSIcons[rRsS.type]"></i>
         </a>
       </li>
     </ul>
@@ -48,9 +42,13 @@ export default defineComponent({
   setup() {
     // data
     const year = new Date().getFullYear();
+    const rRsSIcons: any = {
+      Facebook: 'fab fa-facebook',
+      Twitter: 'fab fa-twitter',
+      Instagram: 'fab fa-instagram',
+    };
 
     // computed
-
     // methods
 
     // life cycle
@@ -58,6 +56,7 @@ export default defineComponent({
     // return
     return {
       year,
+      rRsSIcons,
     };
   },
 });
